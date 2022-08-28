@@ -1,0 +1,21 @@
+.Login {
+  width: 250px;
+  text-align: right;
+}
+
+.Login input,
+.Login button {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.Login h2 {
+  text-align: center;
+}
+
+.Login span {
+  color: red;
+  margin: 0 20px;
+  position: absolute;
+}

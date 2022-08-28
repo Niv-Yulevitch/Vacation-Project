@@ -1,5 +1,4 @@
 import mysql from "mysql";
-import UserModel from "../4-models/user-model";
 import config from "./config";
 
 //* Creating a connection object:

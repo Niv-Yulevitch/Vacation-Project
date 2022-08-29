@@ -6,7 +6,7 @@ function Footer(): JSX.Element {
 
     return (
         <div className="Footer">
-			<h3>כל הזכויות שמורות - ניב יולביץ | {year}</h3>
+			<h5>Niv Yulevitch All rights reserved {year} ©</h5>
         </div>
     );
 }

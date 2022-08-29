@@ -69,7 +69,6 @@ router.delete("/api/vacations/:id", verifyAdmin, async (request: Request, respon
 router.get("/api/vacations/images/:imageName", (request: Request, response: Response, next: NextFunction) => {
     try {
         const imageName = request.params.imageName;
-        console.log(imageName)
 
         let imageFile = locations.getVacationImageFile(imageName);
         if(!fs.existsSync(imageFile)) imageFile = locations.notFoundImageFile;

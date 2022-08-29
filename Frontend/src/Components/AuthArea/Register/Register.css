@@ -1,6 +1,7 @@
 .Register {
+  margin-left: 40vw;
   width: 250px;
-  text-align: right;
+  text-align: left;
 }
 
 .Register input,

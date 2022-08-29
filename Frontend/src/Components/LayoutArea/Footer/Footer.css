@@ -3,4 +3,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #EDEDED;
+}
+
+.Footer h5 {
+    color: #898E94;
+    font-style: normal;
 }

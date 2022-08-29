@@ -27,7 +27,6 @@ router.post(
       try {
         const credentials = new CredentialsModel(request.body);
         const token = await authLogic.login(credentials);
-        console.log("auth-controller: " + token)
         response.json(token);
       } catch (err: any) {
         next(err); // Jumping to catchAll middleware

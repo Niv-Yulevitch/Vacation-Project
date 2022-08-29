@@ -1,5 +1,6 @@
 .AuthMenu {
 	position: absolute;
-    margin: auto;
     width: 99vw;
+    text-align: right;
 }
+

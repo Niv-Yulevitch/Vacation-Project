@@ -1,3 +1,13 @@
 .Home {
     height: 100%;
 }
+
+.Home > .AddVacation {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+}
+
+.MuiList-root {
+    width: 350px;
+}

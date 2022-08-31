@@ -1,5 +1,5 @@
 class VacationModel {
-    public id: number;
+    public id?: number;
     public destination: string;
     public description: string;
     public image: FileList

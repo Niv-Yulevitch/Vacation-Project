@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -15,6 +15,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VacationModel from "../../../Models/VacationModel";
 import "./VacationCard.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 
 interface VacationCardProps {
   vacation: VacationModel;
@@ -42,8 +43,8 @@ function VacationCard(props: VacationCardProps): JSX.Element {
   const newUntilDateFormat = new Date(props.vacation.untilDate).toISOString();
   const untilDate = newUntilDateFormat.split("T",1);
 
-  const [follow, setFollow] = React.useState(false);
-  const [expanded, setExpanded] = React.useState(false);
+  const [follow, setFollow] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleFollowClick = () => {
     setFollow((current) => !current);

@@ -4,7 +4,6 @@ import "./AddVacation.css";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import UserModel from "../../../Models/UserModel";
 import notifyService from "../../../Services/NotifyService";
 import VacationModel from "../../../Models/VacationModel";
 import vacationsService from "../../../Services/VacationsService";
@@ -69,7 +68,7 @@ function AddVacation(): JSX.Element {
                 color="text.secondary"
                 gutterBottom
               >
-                <h2>Add Vacation</h2>
+                Add Vacation
               </Typography>
               <Typography variant="body2">
                 <label>Destination:</label>
@@ -113,28 +112,33 @@ function AddVacation(): JSX.Element {
                   type="date"
                   {...register("fromDate", {
                     required: { value: true, message: "Missing from date" },
-                    a
+                    valueAsDate: true
                   })}
                 />
-                <span>{formState.errors.username?.message}</span>
+                <span>{formState.errors.fromDate?.message}</span>
               </Typography>
               <Typography variant="body2">
-                <label>Password:</label>
+                <label>Until:</label>
                 <input
-                  type="password"
-                  {...register("password", {
-                    required: { value: true, message: "Missing password" },
-                    minLength: {
-                      value: 4,
-                      message: "Password must be inclode at least 4 chars",
-                    },
-                    maxLength: {
-                      value: 100,
-                      message: "Password can't be over 100 chars",
-                    },
+                  type="date"
+                  {...register("untilDate", {
+                    required: { value: true, message: "Missing until date" },
+                    valueAsDate: true
                   })}
                 />
-                <span>{formState.errors.password?.message}</span>
+                <span>{formState.errors.untilDate?.message}</span>
+              </Typography>
+              <Typography variant="body2">
+                <label>price:</label>
+                <input
+                  type="price"
+                  {...register("price", {
+                    required: { value: true, message: "Missing price" },
+                    min: 0,
+                    max: 999999.99
+                  })}
+                />
+                <span>{formState.errors.price?.message}</span>
               </Typography>
             </CardContent>
             <CardActions>

@@ -7,10 +7,10 @@ async function verifyLoggedIn(request: Request, response: Response, next: NextFu
     //* Extract authorization header's value (suppose to be "Bearer token"):
     const authHeader = request.header("authorization");
 
+    console.log("verify-logged-in: " + authHeader)
+
     //* Verify token:
     const isValid = await auth.verifyToken(authHeader);
-
-    console.log("verify-logged-in: " + authHeader)
 
     //* If token is not valid:
     if(!isValid) {

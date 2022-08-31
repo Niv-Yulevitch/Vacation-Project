@@ -1,7 +1,7 @@
 class Config {
-    public getAllVacations = "http://localhost:3001/api/vacation";
+    public vacationsUrl = "http://localhost:3001/api/vacation/";
 };
 
-const config = new Config();
+const appConfig = new Config();
 
-export default config;
+export default appConfig;

@@ -5,6 +5,7 @@ import {
   VacationsActionType,
   vacationsStore,
 } from "../Redux/VacationsState";
+import appConfig from "../Utils/Config";
 
 class VacationsService {
   // Get all vacations from backend:
@@ -15,9 +16,7 @@ class VacationsService {
     // If we have no vacations in global state - fetch them from server:
     if (vacations.length === 0) {
       // Fetch all vacations from backend:
-      const response = await axios.get<VacationModel[]>(
-        "http://localhost:3001/api/vacations/"
-      );
+      const response = await axios.get<VacationModel[]>(appConfig.vacationsUrl);
 
       // Extract vacations from axios response:
       vacations = response.data;
@@ -45,9 +44,7 @@ class VacationsService {
     // If we have no vacations in global state - fetch given vacation from server:
     if (vacations.length === 0) {
       // Fetch one vacation from backend:
-      const response = await axios.get<VacationModel>(
-        "http://localhost:3001/api/vacations/" + id
-      );
+      const response = await axios.get<VacationModel>(appConfig.vacationsUrl + id);
 
       // Save fetched vacation:
       vacation = response.data;
@@ -72,10 +69,7 @@ class VacationsService {
     formData.append("price", vacation.price.toString());
 
     // Send vacation to backend:
-    const response = await axios.post<VacationModel>(
-      "http://localhost:3001/api/vacations",
-      formData
-    );
+    const response = await axios.post<VacationModel>(appConfig.vacationsUrl, formData);
     const addedVacation = response.data;
 
     // Send added vacation to redux global state:
@@ -98,10 +92,7 @@ class VacationsService {
     formData.append("price", vacation.price.toString());
 
     // Send vacation to backend:
-    const response = await axios.put<VacationModel>(
-      "http://localhost:3001/api/vacations/" + vacation.id,
-      formData
-    );
+    const response = await axios.put<VacationModel>(appConfig.vacationsUrl + vacation.id, formData);
     const updatedVacation = response.data;
 
     // Send updated vacation to redux global state:

@@ -22,7 +22,7 @@ function AuthMenu(): JSX.Element {
   }, []);
 
   return (
-    <div className="AuthMenu">
+    <div className="AuthMenu">      
       {!user && (
         <>
           <span>Hello Guest | </span>

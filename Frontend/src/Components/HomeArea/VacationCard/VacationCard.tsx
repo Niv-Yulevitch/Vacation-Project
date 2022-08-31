@@ -36,13 +36,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function VacationCard(props: VacationCardProps): JSX.Element {
-    const newFromDateFormat = new Date(props.vacation.fromDate)
-    const fromDate = newFromDateFormat.toDateString()
-    
-    const newUntilDateFormat = new Date(props.vacation.untilDate)
-    const untilDate = newUntilDateFormat.toDateString()
+  const newFromDateFormat = new Date(props.vacation.fromDate).toISOString();
+  const fromDate = newFromDateFormat.split("T",1);
 
-    const [follow, setFollow] = React.useState(false);
+  const newUntilDateFormat = new Date(props.vacation.untilDate).toISOString();
+  const untilDate = newUntilDateFormat.split("T",1);
+
+  const [follow, setFollow] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleFollowClick = () => {
@@ -56,7 +56,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
   return (
     <div className="VacationCard">
       <Card sx={{ maxWidth: 345 }}>
-        <CardHeader title={props.vacation.destination} />
+        <CardHeader title={props.vacation.destination} subheader={fromDate + " ➡️ " + untilDate}/>
         <CardMedia
           component="img"
           height="194"
@@ -64,10 +64,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
           alt="Paella dish"
         />
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" onClick={handleFollowClick}>
             <FavoriteIcon
               style={{ color: follow ? "red" : "" }}
-              onClick={handleFollowClick}
             />
           </IconButton>
           <ExpandMore
@@ -81,24 +80,12 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-          <Typography variant="body2" color="text.secendery">
-            <b>
-              Dates:
-            </b>{" "}
-            {fromDate} <b>{"->"}</b> {untilDate}
-          </Typography>
-          <Typography variant="body2" color="text.secendery">
-            <b>
-              Description:
-            </b>{" "}
-            {props.vacation.description}
-          </Typography>
-          <Typography variant="body2" color="text.secendery">
-            <b>
-              Price:
-            </b>{" "}
-            {props.vacation.price}$
-          </Typography>
+            <Typography variant="body2" color="text.secendery">
+              <b>Description:</b> {props.vacation.description}
+            </Typography>
+            <Typography variant="body2" color="text.secendery">
+              <b>Price:</b> {props.vacation.price}$
+            </Typography>
           </CardContent>
         </Collapse>
       </Card>

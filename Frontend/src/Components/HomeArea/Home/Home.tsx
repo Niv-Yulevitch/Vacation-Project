@@ -8,6 +8,7 @@ import vacationsService from "../../../Services/VacationsService";
 import Login from "../../AuthArea/Login/Login";
 import Loading from "../../SharedArea/Loading/Loading";
 import VacationCard from "../VacationCard/VacationCard";
+import AddIcon from '@mui/icons-material/Add';
 import "./Home.css";
 
 function Home(): JSX.Element {
@@ -37,6 +38,8 @@ function Home(): JSX.Element {
 
     }, []);
 
+    let userRole = user?.roleID;
+
     return (
         <div className="Home">
 
@@ -45,8 +48,16 @@ function Home(): JSX.Element {
             </>
             }
 
-            {user && <>
-                <NavLink to="/vacations/new">✚</NavLink>
+            {userRole == 1 && <>
+                <NavLink to="/vacations/new"><AddIcon color="primary" fontSize="medium"/></NavLink>
+
+                {vacations.length === 0 && <Loading />}
+
+                {vacations.map(v => <VacationCard key={v.id} vacation={v} />)}
+            </>
+            }
+
+            {userRole == 2 && <>
 
                 {vacations.length === 0 && <Loading />}
 

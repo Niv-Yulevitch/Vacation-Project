@@ -33,11 +33,10 @@ function Login(): JSX.Element {
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
+              variant="h5"
               gutterBottom
             >
-              <h2>Login</h2>
+              <b>Login</b>
             </Typography>
             <Typography variant="body2">
               <label>Username:</label>

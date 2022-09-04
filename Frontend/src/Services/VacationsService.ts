@@ -9,14 +9,14 @@ import appConfig from "../Utils/Config";
 
 class VacationsService {
   // Get all vacations from backend:
-  public async getAllVacations(): Promise<VacationModel[]> {
+  public async getAllVacations(userId: number): Promise<VacationModel[]> {
     // Take vacations resides in redux global state:
     let vacations = vacationsStore.getState().vacations;
 
     // If we have no vacations in global state - fetch them from server:
     if (vacations.length === 0) {
       // Fetch all vacations from backend:
-      const response = await axios.get<VacationModel[]>(appConfig.vacationsUrl);
+      const response = await axios.get<VacationModel[]>(appConfig.vacationsUrl + userId);
 
       // Extract vacations from axios response:
       vacations = response.data;
@@ -33,29 +33,29 @@ class VacationsService {
     return vacations;
   }
 
-  // Get one vacation by id
-  public async getOneVacation(id: number): Promise<VacationModel> {
-    // Desired vacation:
-    let vacation;
+//   // Get one vacation by id
+//   public async getOneVacation(id: number): Promise<VacationModel> {
+//     // Desired vacation:
+//     let vacation;
 
-    // Take vacations resides in redux global state:
-    let vacations = vacationsStore.getState().vacations;
+//     // Take vacations resides in redux global state:
+//     let vacations = vacationsStore.getState().vacations;
 
-    // If we have no vacations in global state - fetch given vacation from server:
-    if (vacations.length === 0) {
-      // Fetch one vacation from backend:
-      const response = await axios.get<VacationModel>(appConfig.vacationsUrl + id);
+//     // If we have no vacations in global state - fetch given vacation from server:
+//     if (vacations.length === 0) {
+//       // Fetch one vacation from backend:
+//       const response = await axios.get<VacationModel>(appConfig.vacationsUrl + id);
 
-      // Save fetched vacation:
-      vacation = response.data;
-    } else {
-      // Take vacation from redux:
-      vacation = vacations.find((p) => p.id === id);
-    }
+//       // Save fetched vacation:
+//       vacation = response.data;
+//     } else {
+//       // Take vacation from redux:
+//       vacation = vacations.find((p) => p.id === id);
+//     }
 
-    // Return vacation:
-    return vacation;
-  }
+//     // Return vacation:
+//     return vacation;
+//   }
 
   // Add new vacation:
   public async addVacation(vacation: VacationModel): Promise<void> {

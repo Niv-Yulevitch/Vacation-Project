@@ -33,11 +33,11 @@ function Register(): JSX.Element {
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
+              variant="h5"
               color="text.secondary"
               gutterBottom
             >
-              <h2>Register</h2>
+              Register
             </Typography>
             <Typography variant="body2">
               <label>First Name:</label>

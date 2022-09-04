@@ -8,22 +8,12 @@ import locations from "../2-utils/locations";
 
 const router = express.Router();
 
-// GET http://localhost:3001/api/vacations
-router.get("/api/vacations", async (request: Request, response: Response, next: NextFunction) => {
+// GET http://localhost:3001/api/vacations/:userID
+router.get("/api/vacations/:userID", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const vacations = await vacationsLogic.getAllVacations();
+        const userID = +request.params.userID
+        const vacations = await vacationsLogic.getAllVacations(userID);
         response.json(vacations);
-    } catch (err: any) {
-        next(err);
-    }
-});
-
-// GET http://localhost:3001/api/vacations/:id
-router.get("/api/vacations/:id", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const id = +request.params.id;
-        const vacation = await vacationsLogic.getOneVacation(id);
-        response.json(vacation);
     } catch (err: any) {
         next(err);
     }

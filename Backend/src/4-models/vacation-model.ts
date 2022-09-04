@@ -10,6 +10,8 @@ class VacationModel {
     public fromDate: Date;
     public untilDate: Date;
     public price: number;
+    public isFollowing: number;
+    public followersCount: number;
 
     public constructor(vacation: VacationModel) {
         this.id = vacation.id;
@@ -20,6 +22,8 @@ class VacationModel {
         this.fromDate = vacation.fromDate;
         this.untilDate = vacation.untilDate;
         this.price = vacation.price;
+        this.isFollowing = vacation.isFollowing;
+        this.followersCount = vacation.followersCount;
     };
 
     private static validationSchema = Joi.object({
@@ -30,7 +34,9 @@ class VacationModel {
         imageName: Joi.string().optional().max(150),
         fromDate: Joi.date().greater('now').required().iso(),
         untilDate: Joi.date().greater(Joi.ref('fromDate')).required().iso(),
-        price: Joi.number().required().positive()
+        price: Joi.number().required().positive(),
+        isFollowing: Joi.number().optional().positive(),
+        followersCount: Joi.number().optional().positive()
     });
 
     public validate(): string {

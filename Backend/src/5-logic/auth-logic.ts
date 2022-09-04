@@ -33,7 +33,7 @@ async function register(user: UserModel): Promise<string> {
 
   const result: OkPacket = await dal.execute(sql);
 
-  user.id = result.insertId;
+  user.userID = result.insertId;
 
   //Delete password:
   delete user.password;
@@ -51,7 +51,7 @@ async function login(credentials: CredentialsModel): Promise<string> {
   if (error) throw new ValidationError(error);
 
   const sql = `SELECT
-                userID AS id,
+                userID,
                 firstName,
                 lastName,
                 username,

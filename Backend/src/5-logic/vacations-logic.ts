@@ -6,45 +6,22 @@ import { v4 as uuid } from "uuid";
 import safeDelete from "../2-utils/safe-delete";
 
 //* Get all vacations:
-async function getAllVacations(): Promise<VacationModel[]> {
+async function getAllVacations(userID: number): Promise<VacationModel[]> {
   //* Create sql:
-  const sql = `SELECT
-                    vacationID AS id,
-                    destination,
-                    description,
-                    imageName,
-                    fromDate,
-                    untilDate,
-                    price
-                    FROM vacations`;
+  const sql = `SELECT DISTINCT
+                V.*,
+                EXISTS (SELECT * FROM followers WHERE vacationID = F.vacationID AND userID = ${userID}) AS isFollowing,
+                COUNT (F.userID) AS followersCount
+                FROM vacations AS V LEFT JOIN followers AS F
+                ON V.vacationID = F.vacationID
+                GROUP BY vacationID
+                ORDER BY isFollowing DESC`;
 
   //* Get data from database:
   const vacations = await dal.execute(sql);
 
   //* Return it:
   return vacations;
-}
-
-//* Get one vacation:
-async function getOneVacation(id: number): Promise<VacationModel> {
-  const sql = `SELECT
-                    vacationID AS id,
-                    destination,
-                    description,
-                    imageName,
-                    fromDate,
-                    untilDate,
-                    price
-                    FROM vacations
-                    WHERE vacationID = ${id}`;
-
-  const vacations = await dal.execute(sql); // Return empty array if not found
-
-  const vacation = vacations[0];
-
-  if (!vacation) throw new IdNotFoundError(id);
-
-  return vacation;
 }
 
 //* Add new vacation:
@@ -110,8 +87,7 @@ async function deleteVacation(id: number): Promise<void> {
 
 export default {
   getAllVacations,
-  getOneVacation,
   addVacation,
   updateVacation,
-  deleteVacation
+  deleteVacation,
 };

@@ -2,7 +2,7 @@ import Joi from "joi";
 import RoleModel from "./role-model";
 
 class UserModel {
-    public id: number;
+    public userID: number;
     public firstName: string;
     public lastName: string;
     public username: string;
@@ -10,7 +10,7 @@ class UserModel {
     public roleID: RoleModel;
 
     public constructor(user: UserModel) {
-        this.id = user.id;
+        this.userID = user.userID;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.username = user.username;
@@ -19,7 +19,7 @@ class UserModel {
     }
 
     private static validationSchema = Joi.object({
-        id: Joi.number().optional().positive().integer(),
+        userID: Joi.number().optional().positive().integer(),
         firstName: Joi.string().required().min(2).max(50),
         lastName: Joi.string().required().min(2).max(50),
         username: Joi.string().required().min(4).max(50),

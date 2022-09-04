@@ -77,6 +77,7 @@ function AddVacation(): JSX.Element {
                 Add Vacation
               </Typography>
               <TextField
+                error
                 required
                 sx={{ width: 250, margin: 0.5 }}
                 label="Destination"
@@ -96,9 +97,8 @@ function AddVacation(): JSX.Element {
                     message: "Destination can't be over 50 chars",
                   },
                 })}
+                helperText={formState.errors.description?.message}
               />
-              <br />
-              <span>{formState.errors.description?.message}</span>
               <TextField
                 required
                 sx={{ width: 250, margin: 0.5 }}
@@ -116,8 +116,8 @@ function AddVacation(): JSX.Element {
                     message: "Description can't be over 550 chars",
                   },
                 })}
+                helperText={formState.errors.description?.message}
               />
-              <span>{formState.errors.description?.message}</span>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="From"
@@ -135,11 +135,11 @@ function AddVacation(): JSX.Element {
                         required: { value: true, message: "Missing from date" },
                         valueAsDate: true,
                       })}
+                      helperText={formState.errors.fromDate?.message}
                     />
                   )}
                 />
               </LocalizationProvider>
-              <span>{formState.errors.fromDate?.message}</span>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Until"
@@ -160,11 +160,11 @@ function AddVacation(): JSX.Element {
                         },
                         valueAsDate: true,
                       })}
+                      helperText={formState.errors.untilDate?.message}
                     />
                   )}
                 />
               </LocalizationProvider>
-              <span>{formState.errors.untilDate?.message}</span>
               <TextField
                 required
                 sx={{ width: 250, margin: 0.5 }}
@@ -177,8 +177,8 @@ function AddVacation(): JSX.Element {
                   min: 0,
                   max: 999999.99,
                 })}
+                helperText={formState.errors.price?.message}
               />
-              <span>{formState.errors.price?.message}</span>
             </CardContent>
             <CardActions>
               <Button variant="contained" type="submit">

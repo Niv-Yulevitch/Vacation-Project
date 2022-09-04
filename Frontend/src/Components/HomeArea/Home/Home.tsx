@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import UserModel from "../../../Models/UserModel";
-import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
-import notifyService from "../../../Services/NotifyService";
-import vacationsService from "../../../Services/VacationsService";
 import Login from "../../AuthArea/Login/Login";
-import Loading from "../../SharedArea/Loading/Loading";
-import VacationCard from "../VacationCard/VacationCard";
 import "./Home.css";
 import AddVacation from "../AddVacation/AddVacation";
 import VacationList from "../VacationList/VacationList";
@@ -37,7 +32,7 @@ function Home(): JSX.Element {
                 </>
             )}
 
-            {userRole == 1 && (
+            {userRole === 1 && (
                 <>
                     <AddVacation />
 
@@ -46,7 +41,7 @@ function Home(): JSX.Element {
                 </>
             )}
 
-            {userRole == 2 && (
+            {userRole === 2 && (
                 <>
                     <VacationList userID={user.userID}/>
                 </>

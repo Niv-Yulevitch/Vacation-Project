@@ -7,3 +7,11 @@
     border-radius: 10px;
     box-shadow: 10px 10px 10px;
 } */
+
+.AddVacationForm {
+    padding: 10px;
+}
+
+.AddVacationForm button {
+    margin: auto;
+}

@@ -19,6 +19,19 @@ router.get("/api/vacations/:userID", verifyLoggedIn, async (request: Request, re
     }
 });
 
+// GET http://localhost:3001/api/vacations/:id
+router.get("/api/vacations/:id", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const id = +request.params.id;
+        const vacation = await vacationsLogic.getOneVacation(id);
+        console.log(vacation)
+        response.json(vacation);
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
+
 // POST http://localhost:3001/api/vacations
 router.post("/api/vacations", verifyAdmin ,async (request: Request, response: Response, next: NextFunction) => {
     try {

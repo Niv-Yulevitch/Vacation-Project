@@ -16,7 +16,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VacationModel from "../../../Models/VacationModel";
 import "./VacationCard.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import EditVacation from "../EditVacation/EditVacation";
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -72,6 +72,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                         />
                         {props.vacation.followersCount}
                     </Fab>
+                    <EditVacation />
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}

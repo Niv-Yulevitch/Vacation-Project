@@ -24,6 +24,21 @@ async function getAllVacations(userID: number): Promise<VacationModel[]> {
   return vacations;
 }
 
+async function getOneVacation(id: number): Promise<VacationModel> {
+  const sql = `SELECT
+                  * 
+                  FROM vacations
+                  WHERE vacation vacationID = ${id}`;
+
+  const vacations = await dal.execute(sql); // returns empty array if not found
+
+  const vacation = vacations[0];
+
+  if (!vacation) throw new IdNotFoundError(id);
+
+  return vacation;
+}
+
 //* Add new vacation:
 async function addVacation(vacation: VacationModel): Promise<VacationModel> {
   const error = vacation.validate();
@@ -87,6 +102,7 @@ async function deleteVacation(id: number): Promise<void> {
 
 export default {
   getAllVacations,
+  getOneVacation,
   addVacation,
   updateVacation,
   deleteVacation,

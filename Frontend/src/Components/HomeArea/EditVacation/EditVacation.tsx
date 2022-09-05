@@ -8,11 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import "./AddVacation.css";
-import AddIcon from "@mui/icons-material/Add";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./EditVacation.css";
+import EditIcon from "@mui/icons-material/Edit";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import notifyService from "../../../Services/NotifyService";
 import VacationModel from "../../../Models/VacationModel";
 import vacationsService from "../../../Services/VacationsService";
@@ -20,23 +20,37 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 
-function AddVacation(): JSX.Element {
+function EditVacation(): JSX.Element {
+  // Use Params = for ID:
+  const params = useParams();
+
+  // Use Form = for handle the form:
+  const { control, register, handleSubmit, formState, setValue } =
+    useForm<VacationModel>();
+
+  // State for Dates:
   const [fromDatevalue, setFromDateValue] = useState<Dayjs | null>(null);
   const [untilDatevalue, setUntilDateValue] = useState<Dayjs | null>(null);
+
+  // The current Date for Dates:
+  const today = new Date().toISOString().split("T")[0].toString();
+  const todayDayjs = dayjs(today);
+
+  // State for collapse:
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  // Handle for collapse:
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const { register, handleSubmit, formState } = useForm<VacationModel>();
-
+  // Use Navigate = for navigation between pages.
   const navigate = useNavigate();
 
+  // Functions send for form handle.
   async function send(vacation: VacationModel) {
     try {
       await vacationsService.addVacation(vacation);
@@ -47,13 +61,26 @@ function AddVacation(): JSX.Element {
     }
   }
 
-  const today = new Date().toISOString().split("T")[0].toString();
-  const todayDayjs = dayjs(today);
+  useEffect(() => {
+    const id = +params.id;
+
+    vacationsService
+      .getOneVacation(id)
+      .then((vacation) => {
+        setValue("id", vacation.id);
+        setValue("destination", vacation.destination);
+        setValue("description", vacation.description);
+        setValue("fromDate", vacation.fromDate);
+        setValue("untilDate", vacation.untilDate);
+        setValue("price", vacation.price);
+      })
+      .catch((err) => notifyService.error(err));
+  }, [setValue, anchorEl]);
 
   return (
-    <div className="AddVacation">
-      <Fab color="primary" aria-label="add" onClick={handleMenu}>
-        <AddIcon />
+    <div className="EditVacation">
+      <Fab size="small" aria-label="add" onClick={handleMenu}>
+        <EditIcon />
       </Fab>
       <Menu
         id="menu-appbar"
@@ -70,38 +97,48 @@ function AddVacation(): JSX.Element {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <form onSubmit={handleSubmit(send)} className="AddVacationForm">
+        <form onSubmit={handleSubmit(send)} className="EditVacationForm">
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
+              <input type="hidden" {...register("id")} />
               <Typography variant="h5" color="text.secondary" gutterBottom>
-                Add Vacation
+                Edit Vacation
               </Typography>
-              <TextField
-                required
-                sx={{ width: 250, margin: 0.5 }}
-                label="Destination"
-                variant="outlined"
-                size="small"
-                {...register("destination", {
-                  required: {
-                    value: true,
-                    message: "Missing last destination",
-                  },
-                  minLength: {
-                    value: 2,
-                    message: "Destination must be include at least 2 chars",
-                  },
-                  maxLength: {
-                    value: 50,
-                    message: "Destination can't be over 50 chars",
-                  },
-                })}
-                helperText={formState.errors.description?.message}
+              <Controller
+                name="destination"
+                render={() => 
+                  <TextField
+                    required
+                    sx={{ width: 250, margin: 0.5 }}
+                    label="Destination"
+                    name="destination"
+                    variant="outlined"
+                    size="small"
+                    {...register("destination", {
+                      required: {
+                        value: true,
+                        message: "Missing last destination",
+                      },
+                      minLength: {
+                        value: 2,
+                        message: "Destination must be include at least 2 chars",
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: "Destination can't be over 50 chars",
+                      },
+                    })}
+                    helperText={formState.errors.description?.message}
+                  />
+                }
+                control={control}
               />
+
               <TextField
                 required
                 sx={{ width: 250, margin: 0.5 }}
                 label="Description"
+                name="description"
                 variant="outlined"
                 size="small"
                 {...register("description", {
@@ -129,6 +166,7 @@ function AddVacation(): JSX.Element {
                     <TextField
                       size="small"
                       sx={{ width: 250, margin: 0.5 }}
+                      name="fromDate"
                       {...params}
                       {...register("fromDate", {
                         required: { value: true, message: "Missing from date" },
@@ -151,6 +189,7 @@ function AddVacation(): JSX.Element {
                     <TextField
                       size="small"
                       sx={{ width: 250, margin: 0.5 }}
+                      name="untilDate"
                       {...params}
                       {...register("untilDate", {
                         required: {
@@ -168,6 +207,7 @@ function AddVacation(): JSX.Element {
                 required
                 sx={{ width: 250, margin: 0.5 }}
                 label="Price"
+                name="price"
                 variant="outlined"
                 size="small"
                 type="number"
@@ -202,4 +242,4 @@ function AddVacation(): JSX.Element {
   );
 }
 
-export default AddVacation;
+export default EditVacation;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import dayjs from "dayjs";
 import VacationModel from "../Models/VacationModel";
 import {
   VacationsAction,
@@ -33,39 +34,44 @@ class VacationsService {
     return vacations;
   }
 
-//   // Get one vacation by id
-//   public async getOneVacation(id: number): Promise<VacationModel> {
-//     // Desired vacation:
-//     let vacation;
-
-//     // Take vacations resides in redux global state:
-//     let vacations = vacationsStore.getState().vacations;
-
-//     // If we have no vacations in global state - fetch given vacation from server:
-//     if (vacations.length === 0) {
-//       // Fetch one vacation from backend:
-//       const response = await axios.get<VacationModel>(appConfig.vacationsUrl + id);
-
-//       // Save fetched vacation:
-//       vacation = response.data;
-//     } else {
-//       // Take vacation from redux:
-//       vacation = vacations.find((p) => p.id === id);
-//     }
-
-//     // Return vacation:
-//     return vacation;
-//   }
+    // Get one vacation by id
+    public async getOneVacation(id: number): Promise<VacationModel> {
+      // Desired vacation:
+      let vacation;
+  
+      // Take vacaions resides in redux global state:
+      let vacations = vacationsStore.getState().vacations;
+  
+      // If we have no vacations in global state - fetch given vacation from server:
+      if (vacations.length === 0) {
+        // Fetch one vacation from backend:
+        const response = await axios.get<VacationModel>(
+          appConfig.vacationsUrl + id
+        );
+  
+        // Save fetched product:
+        vacation = response.data;
+      } else {
+        // Take vacation from redux:
+        vacation = vacations.find((v) => v.id === id);
+      }
+  
+      // Return vacation:
+      return vacation;
+    }
 
   // Add new vacation:
   public async addVacation(vacation: VacationModel): Promise<void> {
     // Convert VacationModel into FormData because we need to send text + image:
+    const fromDateValue = dayjs(vacation.fromDate).toISOString();
+    const untilDateValue = dayjs(vacation.untilDate).toISOString();
+
     const formData = new FormData();
     formData.append("destination", vacation.destination);
     formData.append("description", vacation.description);
     formData.append("image", vacation.image[0]);
-    formData.append("fromDate", vacation.fromDate.toString());
-    formData.append("untilDate", vacation.untilDate.toString());
+    formData.append("fromDate", fromDateValue);
+    formData.append("untilDate", untilDateValue);
     formData.append("price", vacation.price.toString());
 
     // Send vacation to backend:

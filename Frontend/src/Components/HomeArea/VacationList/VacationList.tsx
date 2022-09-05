@@ -20,7 +20,7 @@ function VacationList(props: VacationListProps): JSX.Element {
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
 
-    }, []);
+    }, [vacations]);
 
     return (
         <div className="VacationList">

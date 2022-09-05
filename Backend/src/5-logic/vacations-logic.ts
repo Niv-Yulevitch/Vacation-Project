@@ -10,7 +10,7 @@ async function getAllVacations(userID: number): Promise<VacationModel[]> {
   //* Create sql:
   const sql = `SELECT DISTINCT
                 V.*,
-                EXISTS (SELECT * FROM followers WHERE vacationID = F.vacationID AND userID = ${userID}) AS isFollowing,
+                EXISTS (SELECT * FROM followers WHERE vacationID = F.vacationID AND userID = ?) AS isFollowing,
                 COUNT (F.userID) AS followersCount
                 FROM vacations AS V LEFT JOIN followers AS F
                 ON V.vacationID = F.vacationID
@@ -18,7 +18,7 @@ async function getAllVacations(userID: number): Promise<VacationModel[]> {
                 ORDER BY isFollowing DESC`;
 
   //* Get data from database:
-  const vacations = await dal.execute(sql);
+  const vacations = await dal.execute(sql, userID);
 
   //* Return it:
   return vacations;
@@ -28,9 +28,9 @@ async function getOneVacation(id: number): Promise<VacationModel> {
   const sql = `SELECT
                   * 
                   FROM vacations
-                  WHERE vacation vacationID = ${id}`;
+                  WHERE vacation vacationID = ?`;
 
-  const vacations = await dal.execute(sql); // returns empty array if not found
+  const vacations = await dal.execute(sql, id); // returns empty array if not found
 
   const vacation = vacations[0];
 
@@ -51,10 +51,9 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
     delete vacation.image; // Delete File before saving.
   }
 
-  const sql = `INSERT INTO vacations(destination, description, imageName,fromDate,untilDate,price)
-                    VALUES('${vacation.destination}', '${vacation.description}', '${vacation.imageName}', '${vacation.fromDate}', '${vacation.untilDate}', ${vacation.price})`;
+  const sql = `INSERT INTO vacations VALUES(DEFAULT, ?, ?, ?, ?, ?, ?`;
 
-  const result: OkPacket = await dal.execute(sql);
+  const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.imageName, vacation.fromDate, vacation.untilDate, vacation.price]);
 
   vacation.id = result.insertId;
 
@@ -75,15 +74,15 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
   }
 
   const sql = `UPDATE vacations SET
-                    destination = "${vacation.destination}",
-                    description = ${vacation.description},
-                    imageName = ${vacation.imageName},
-                    fromDate = ${vacation.fromDate},
-                    untilDate = ${vacation.untilDate},
-                    price = ${vacation.price},
-                    WHERE vacationID = ${vacation.id}`;
+                    destination = "?",
+                    description = ?,
+                    imageName = ?,
+                    fromDate = ?,
+                    untilDate = ?,
+                    price = ?,
+                    WHERE vacationID = ?`;
 
-  const result: OkPacket = await dal.execute(sql);
+  const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.imageName, vacation.fromDate, vacation.untilDate, vacation.price, vacation.id]);
 
   if (result.affectedRows === 0) throw new IdNotFoundError(vacation.id);
 
@@ -93,9 +92,9 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
 //* Delete vacation:
 async function deleteVacation(id: number): Promise<void> {
   const sql = `DELETE FROM vacations
-                    WHERE vacationID = ${id}`;
+                    WHERE vacationID = ?`;
 
-  const result: OkPacket = await dal.execute(sql);
+  const result: OkPacket = await dal.execute(sql, id);
 
   if (result.affectedRows === 0) throw new IdNotFoundError(id);
 }

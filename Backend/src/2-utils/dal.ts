@@ -11,12 +11,12 @@ const connection = mysql.createPool({
 
 console.log("We're connected to MySQL");
 
-function execute(sql: string): Promise<any> {
+function execute(sql: string, values): Promise<any> {
     
     return new Promise<any>((resolve, reject) => { // To Promisify as asynchronous function
         
         //* Execute the sql on MySQL:
-        connection.query(sql, (err, result) => { // Query = שאילתא 
+        connection.query(sql, values, (err, result) => { // Query = שאילתא 
             //* If there is an error:
             if (err) {
                 reject( err );

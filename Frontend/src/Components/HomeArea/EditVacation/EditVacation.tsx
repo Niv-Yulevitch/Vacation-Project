@@ -29,8 +29,8 @@ function EditVacation(): JSX.Element {
     useForm<VacationModel>();
 
   // State for Dates:
-  const [fromDatevalue, setFromDateValue] = useState<Dayjs | null>(null);
-  const [untilDatevalue, setUntilDateValue] = useState<Dayjs | null>(null);
+  const [fromDateValue, setFromDateValue] = useState<Dayjs | null>(null);
+  const [untilDateValue, setUntilDateValue] = useState<Dayjs | null>(null);
 
   // The current Date for Dates:
   const today = new Date().toISOString().split("T")[0].toString();
@@ -158,7 +158,7 @@ function EditVacation(): JSX.Element {
                 <DatePicker
                   label="From"
                   minDate={todayDayjs}
-                  value={fromDatevalue}
+                  value={fromDateValue}
                   onChange={(newValue) => {
                     setFromDateValue(newValue);
                   }}
@@ -180,8 +180,8 @@ function EditVacation(): JSX.Element {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Until"
-                  minDate={fromDatevalue}
-                  value={untilDatevalue}
+                  minDate={fromDateValue}
+                  value={untilDateValue}
                   onChange={(newValue) => {
                     setUntilDateValue(newValue);
                   }}

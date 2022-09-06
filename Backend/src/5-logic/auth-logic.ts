@@ -20,7 +20,7 @@ async function register(user: UserModel): Promise<string> {
   // Create minimum role:
   user.roleID = RoleModel.User;
 
-  const sql = `INSERT INTO users VALUES(DEFAULT, ?, ?, ?, ?, ?`;
+  const sql = `INSERT INTO users VALUES(DEFAULT, ?, ?, ?, ?, ?)`;
 
   const result: OkPacket = await dal.execute(sql, [user.firstName,user.lastName,user.username,user.password,user.roleID + 1]);
 

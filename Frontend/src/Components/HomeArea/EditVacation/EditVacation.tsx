@@ -79,7 +79,7 @@ function EditVacation(): JSX.Element {
 
   return (
     <div className="EditVacation">
-      <Fab size="small" aria-label="add" onClick={handleMenu}>
+      <Fab size="small" aria-label="add" className="EditButton" onClick={handleMenu}>
         <EditIcon />
       </Fab>
       <Menu

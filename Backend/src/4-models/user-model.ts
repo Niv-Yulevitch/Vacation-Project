@@ -23,7 +23,7 @@ class UserModel {
         firstName: Joi.string().required().min(2).max(50),
         lastName: Joi.string().required().min(2).max(50),
         username: Joi.string().required().min(4).max(50),
-        password: Joi.string().required().min(4).max(128),
+        password: Joi.string().required().min(4).max(256),
         roleID: Joi.number().optional().positive().integer()
     });
 

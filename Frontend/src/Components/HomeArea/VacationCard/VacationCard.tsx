@@ -11,12 +11,13 @@ import {
     styled,
     Collapse,
     Fab,
+    Button,
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import VacationModel from "../../../Models/VacationModel";
 import "./VacationCard.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditVacation from "../EditVacation/EditVacation";
+import withStyles from "@mui/material/styles/withStyles"
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -66,12 +67,10 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>
-                    <Fab size="small" aria-label="follow" onClick={handleFollowClick}>
-                        <FavoriteIcon
-                            style={{ color: follow ? "red" : "" }}
-                        />
-                        {props.vacation.followersCount}
-                    </Fab>
+                    {/* size="small" variant="extended" aria-label="follow" style={{ backgroundColor: follow ? "lightblue" : "" }} */}
+                    <Button variant="contained" size="small" className="FollowersButton" disableRipple onClick={handleFollowClick}>
+                        {follow ? "Follow" : "Unfollow"} {props.vacation.followersCount}
+                    </Button>
                     <EditVacation />
                     <ExpandMore
                         expand={expanded}

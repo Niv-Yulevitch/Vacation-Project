@@ -67,8 +67,8 @@ function Login(): JSX.Element {
                     message: "Password must be inclode at least 4 chars",
                   },
                   maxLength: {
-                    value: 100,
-                    message: "Password can't be over 100 chars",
+                    value: 256,
+                    message: "Password can't be over 256 chars",
                   },
                 })}
               />

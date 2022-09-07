@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
@@ -7,7 +8,7 @@ import VacationCard from "../VacationCard/VacationCard";
 import "./VacationList.css";
 
 interface VacationListProps {
-    userID: number;
+    user: UserModel;
 }
 
 function VacationList(props: VacationListProps): JSX.Element {
@@ -16,7 +17,7 @@ function VacationList(props: VacationListProps): JSX.Element {
 
     useEffect(() => {
         vacationsService
-            .getAllVacations(props.userID)
+            .getAllVacations(props.user.userID)
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
 
@@ -27,7 +28,7 @@ function VacationList(props: VacationListProps): JSX.Element {
             {vacations.length === 0 && <Loading />}
 
             {vacations.map((v) => (
-                <VacationCard key={v.id} vacation={v} />
+                <VacationCard key={v.id} vacation={v} user={props.user} />
             ))}
         </div>
     );

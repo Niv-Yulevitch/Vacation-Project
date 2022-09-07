@@ -9,9 +9,35 @@
 } */
 
 .AddVacationForm {
-    padding: 10px;
+    text-align: left;
+}
+
+.AddVacationForm h5 {
+    text-align: center;
+}
+
+.AddVacationForm input, .AddVacationForm textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .AddVacationForm button {
-    margin: auto;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.AddVacationForm button:hover {
+    background-color: #45a049;
+}
+
+.AddVacationForm span {
+    display: inline-block;
+    width: 100%;
+    color: red;
+    margin-bottom: 20px;
 }

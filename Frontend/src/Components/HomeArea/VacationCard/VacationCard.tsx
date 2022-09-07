@@ -10,17 +10,17 @@ import {
     IconButtonProps,
     styled,
     Collapse,
-    Fab,
     Button,
 } from "@mui/material";
 import VacationModel from "../../../Models/VacationModel";
 import "./VacationCard.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditVacation from "../EditVacation/EditVacation";
-import withStyles from "@mui/material/styles/withStyles"
+import UserModel from "../../../Models/UserModel";
 
 interface VacationCardProps {
     vacation: VacationModel;
+    user: UserModel
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -71,7 +71,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     <Button variant="contained" size="small" className="FollowersButton" disableRipple onClick={handleFollowClick}>
                         {follow ? "Follow" : "Unfollow"} {props.vacation.followersCount}
                     </Button>
-                    <EditVacation />
+                    {props.user.roleID === 1 && (<><EditVacation /></>)}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}

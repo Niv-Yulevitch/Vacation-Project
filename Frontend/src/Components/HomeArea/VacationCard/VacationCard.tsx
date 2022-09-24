@@ -55,23 +55,22 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
+    
     return (
         <div className="VacationCard">
-            <Card sx={{ maxWidth: 345 }}>
+            <Card>
                 <CardHeader title={props.vacation.destination} subheader={fromDate + " ➡️ " + untilDate} />
                 <CardMedia
                     component="img"
-                    height="194"
+                    height="160"
                     image={`http://localhost:3001/api/vacations/images/${props.vacation.imageName}`}
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>
-                    {/* size="small" variant="extended" aria-label="follow" style={{ backgroundColor: follow ? "lightblue" : "" }} */}
                     <Button variant="contained" size="small" className="FollowersButton" disableRipple onClick={handleFollowClick}>
-                        {follow ? "Follow" : "Unfollow"} {props.vacation.followersCount}
+                        {follow ? "Unfollow" : "Follow"} {props.vacation.followersCount}
                     </Button>
-                    {props.user.roleID === 1 && (<><EditVacation /></>)}
+                    {props.user.roleID === 1 && (<><EditVacation key={props.vacation.id} /></>)}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}

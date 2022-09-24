@@ -63,8 +63,8 @@ class VacationsService {
   // Add new vacation:
   public async addVacation(vacation: VacationModel): Promise<void> {
     // Convert VacationModel into FormData because we need to send text + image:
-    const fromDateValue = dayjs(vacation.fromDate).toISOString();
-    const untilDateValue = dayjs(vacation.untilDate).toISOString();
+    const fromDateValue = vacation.fromDate.toISOString().split("T")[0].toString();
+    const untilDateValue = vacation.untilDate.toISOString().split("T")[0].toString();
 
     const formData = new FormData();
     formData.append("destination", vacation.destination);

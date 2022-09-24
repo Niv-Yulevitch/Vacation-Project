@@ -4,6 +4,7 @@ import { IdNotFoundError, ValidationError } from "../4-models/client-errors";
 import VacationModel from "../4-models/vacation-model";
 import { v4 as uuid } from "uuid";
 import safeDelete from "../2-utils/safe-delete";
+import FollowerModel from "../4-models/followers-model";
 
 //* Get all vacations:
 async function getAllVacations(userID: number): Promise<VacationModel[]> {
@@ -19,6 +20,8 @@ async function getAllVacations(userID: number): Promise<VacationModel[]> {
 
   //* Get data from database:
   const vacations = await dal.execute(sql, userID);
+
+  console.log(vacations);
 
   //* Return it:
   return vacations;
@@ -45,15 +48,24 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
   if (error) throw new ValidationError(error);
 
   if (vacation.image) {
-    const extension = vacation.image.name.substring(vacation.image.name.lastIndexOf(".")); // .gif / .png / .jpg / .jpeg
+    const extension = vacation.image.name.substring(
+      vacation.image.name.lastIndexOf(".")
+    ); // .gif / .png / .jpg / .jpeg
     vacation.imageName = uuid() + extension;
     await vacation.image.mv("./src/1-assets/images/" + vacation.imageName); // mv = move = copy image.
     delete vacation.image; // Delete File before saving.
   }
 
-  const sql = `INSERT INTO vacations VALUES(DEFAULT, ?, ?, ?, ?, ?, ?`;
+  const sql = `INSERT INTO vacations VALUES(DEFAULT, ?, ?, ?, ?, ?, ?)`;
 
-  const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.imageName, vacation.fromDate, vacation.untilDate, vacation.price]);
+  const result: OkPacket = await dal.execute(sql, [
+    vacation.destination,
+    vacation.description,
+    vacation.imageName,
+    vacation.fromDate,
+    vacation.untilDate,
+    vacation.price,
+  ]);
 
   vacation.id = result.insertId;
 
@@ -67,7 +79,9 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
 
   if (vacation.image) {
     await safeDelete("./src/1-assets/images/" + vacation.imageName);
-    const extension = vacation.image.name.substring(vacation.image.name.lastIndexOf(".")); // .gif / .png / .jpg / .jpeg
+    const extension = vacation.image.name.substring(
+      vacation.image.name.lastIndexOf(".")
+    ); // .gif / .png / .jpg / .jpeg
     vacation.imageName = uuid() + extension;
     await vacation.image.mv("./src/1-assets/images/" + vacation.imageName); // mv = move = copy image.
     delete vacation.image; // Delete File before saving.
@@ -82,7 +96,15 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
                     price = ?,
                     WHERE vacationID = ?`;
 
-  const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.imageName, vacation.fromDate, vacation.untilDate, vacation.price, vacation.id]);
+  const result: OkPacket = await dal.execute(sql, [
+    vacation.destination,
+    vacation.description,
+    vacation.imageName,
+    vacation.fromDate,
+    vacation.untilDate,
+    vacation.price,
+    vacation.id,
+  ]);
 
   if (result.affectedRows === 0) throw new IdNotFoundError(vacation.id);
 
@@ -99,10 +121,36 @@ async function deleteVacation(id: number): Promise<void> {
   if (result.affectedRows === 0) throw new IdNotFoundError(id);
 }
 
+//* Follow:
+async function followAsync(follower: FollowerModel): Promise<FollowerModel> {
+  const error = follower.validate();
+  if (error) throw new ValidationError(error);
+
+  const sql = `INSERT INTO followers VALUES(?, ?)`;
+
+  const result: OkPacket = await dal.execute(sql, [
+    follower.userID,
+    follower.vacationID,
+  ]);
+
+  return follower;
+}
+
+//* Unfollow:
+async function unFollowAsync(follower: FollowerModel): Promise<void> {
+  const sql = `DELETE FROM followers WHERE userID = ? AND vacationID = ?`;
+
+  const result: OkPacket = await dal.execute(sql, [follower.userID, follower.vacationID]);
+
+  if (result.affectedRows === 0) throw new IdNotFoundError(follower.userID || follower.vacationID);
+}
+
 export default {
   getAllVacations,
   getOneVacation,
   addVacation,
   updateVacation,
   deleteVacation,
+  followAsync,
+  unFollowAsync,
 };

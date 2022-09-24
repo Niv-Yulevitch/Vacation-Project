@@ -23,8 +23,6 @@ function Home(): JSX.Element {
     }, []);
 
     let userRole = user?.roleID;
-    console.log(userRole);
-    console.log(user);
 
     return (
         <div className="Home">
@@ -38,14 +36,14 @@ function Home(): JSX.Element {
                 <>
                     <AddVacation />
 
-                    <VacationList user={user}/>
+                    <VacationList key={user.userID} user={user}/>
 
                 </>
             )}
 
             {userRole === 2 && (
                 <>
-                    <VacationList user={user}/>
+                    <VacationList key={user.userID} user={user}/>
                 </>
             )}
         </div>

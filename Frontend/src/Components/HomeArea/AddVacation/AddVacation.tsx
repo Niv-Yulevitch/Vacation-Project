@@ -13,6 +13,7 @@ function AddVacation(): JSX.Element {
     const [untilDateValue, setUntilDateValue] = useState<any>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -36,9 +37,6 @@ function AddVacation(): JSX.Element {
     }
 
     const today = new Date().toISOString().split("T")[0].toString();
-    // const today1 = new Date(fromDateValue).toISOString().split("T")[0].toString();
-    const today1 = new Date(fromDateValue).toISOString();
-    console.log(today1);
 
     return (
         <div className="AddVacation">
@@ -77,7 +75,7 @@ function AddVacation(): JSX.Element {
                             <span>{formState.errors.fromDate?.message}</span>
 
                             <label>Until:</label>
-                            <input type="date" required value={untilDateValue} onChange={(newValue) => setUntilDateValue(newValue)} {...register("untilDate", {
+                            <input type="date" required min={today} onChange={(newValue) => setUntilDateValue(newValue)} {...register("untilDate", {
                                 required: { value: true, message: "Missing until date" },
                                 valueAsDate: true,
                             })} />

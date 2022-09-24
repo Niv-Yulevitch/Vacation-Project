@@ -1,12 +1,12 @@
 .VacationCard {
     display: inline-flex;
     text-align: left;
-    margin: 10px;
     padding: 10px;
+    width: 250px;
 } 
 
 .VacationCard > div:last-child {
-    margin-left: auto;
+    margin: auto;
 }
 
 .VacationCard .FollowersButton {

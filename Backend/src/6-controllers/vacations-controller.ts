@@ -5,6 +5,7 @@ import VacationModel from "../4-models/vacation-model";
 import vacationsLogic from "../5-logic/vacations-logic";
 import fs from "fs";
 import locations from "../2-utils/locations";
+import FollowerModel from "../4-models/followers-model";
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get("/api/vacations/:userID", verifyLoggedIn, async (request: Request, re
 });
 
 // GET http://localhost:3001/api/vacations/:id
-router.get("/api/vacations/:id", async (request: Request, response: Response, next: NextFunction) => {
+router.get("/api/vacations/:id", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const id = +request.params.id;
         const vacation = await vacationsLogic.getOneVacation(id);
@@ -81,5 +82,27 @@ router.get("/api/vacations/images/:imageName", (request: Request, response: Resp
         next(err);
     }
 })
+
+// POST http://localhost:3001/api/follow
+router.post("/api/follow", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const follower = new FollowerModel(request.body);
+        const follow = await vacationsLogic.followAsync(follower);
+        response.status(201).json(follow);
+    } catch (err: any) {
+        next(err);
+    }
+});
+
+// POST http://localhost:3001/api/unFollow
+router.post("/api/unFollow", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const follower = new FollowerModel(request.body);
+        const unFollow = await vacationsLogic.unFollowAsync(follower);
+        response.status(201).json(unFollow);
+    } catch (err: any) {
+        next(err);
+    }
+});
 
 export default router;

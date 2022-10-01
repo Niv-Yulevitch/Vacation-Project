@@ -46,7 +46,7 @@ function Login(): JSX.Element {
                   required: { value: true, message: "Missing username" },
                   minLength: {
                     value: 4,
-                    message: "Username must be inclode at least 4 chars",
+                    message: "Username must be include at least 4 chars",
                   },
                   maxLength: {
                     value: 100,
@@ -64,7 +64,7 @@ function Login(): JSX.Element {
                   required: { value: true, message: "Missing password" },
                   minLength: {
                     value: 4,
-                    message: "Password must be inclode at least 4 chars",
+                    message: "Password must be include at least 4 chars",
                   },
                   maxLength: {
                     value: 256,

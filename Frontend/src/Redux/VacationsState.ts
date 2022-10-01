@@ -36,7 +36,7 @@ export function vacationsReducer ( currentState = new VacationsState(), action: 
         break;
 
     case VacationsActionType.UpdateVacation: // Here payload must be the vacation to update.
-        const indexToUpdate = newState.vacations.findIndex(v => v.id === action.payload.id); // -1 if not exist.
+        const indexToUpdate = newState.vacations.findIndex(v => v.vacationID === action.payload.id); // -1 if not exist.
         
         if (indexToUpdate >= 0) {
             newState.vacations[indexToUpdate] = action.payload; // Update
@@ -44,7 +44,7 @@ export function vacationsReducer ( currentState = new VacationsState(), action: 
         break;
 
     case VacationsActionType.DeleteVacation: // Here payload must be id to delete.
-        const indexToDelete = newState.vacations.findIndex(p => p.id === action.payload); // -1 if not exist.
+        const indexToDelete = newState.vacations.findIndex(v => v.vacationID === action.payload); // -1 if not exist.
         if (indexToDelete >= 0) {
             newState.vacations.splice(indexToDelete, 1); // Delete
         }

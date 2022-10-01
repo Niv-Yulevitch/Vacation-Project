@@ -21,8 +21,6 @@ async function getAllVacations(userID: number): Promise<VacationModel[]> {
   //* Get data from database:
   const vacations = await dal.execute(sql, userID);
 
-  console.log(vacations);
-
   //* Return it:
   return vacations;
 }
@@ -77,6 +75,8 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
   const error = vacation.validate();
   if (error) throw new ValidationError(error);
 
+    console.log(vacation);
+
   if (vacation.image) {
     await safeDelete("./src/1-assets/images/" + vacation.imageName);
     const extension = vacation.image.name.substring(
@@ -87,24 +87,22 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
     delete vacation.image; // Delete File before saving.
   }
 
-  const sql = `UPDATE vacations SET
-                    destination = "?",
+  let sql = `UPDATE vacations SET
+                    destination = ?,
                     description = ?,
-                    imageName = ?,
                     fromDate = ?,
                     untilDate = ?,
-                    price = ?,
-                    WHERE vacationID = ?`;
+                    price = ?`
+  let values = [];
+  if (vacation.image === undefined) {
+    sql += ` WHERE vacationID = ?`
+    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.id]
+  } else {
+    sql += `, imageName = ? WHERE vacationId = ?`
+    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.imageName, vacation.id]
+  }
 
-  const result: OkPacket = await dal.execute(sql, [
-    vacation.destination,
-    vacation.description,
-    vacation.imageName,
-    vacation.fromDate,
-    vacation.untilDate,
-    vacation.price,
-    vacation.id,
-  ]);
+  const result: OkPacket = await dal.execute(sql, values);
 
   if (result.affectedRows === 0) throw new IdNotFoundError(vacation.id);
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Card,
     CardHeader,
@@ -10,19 +10,19 @@ import {
     IconButtonProps,
     styled,
     Collapse,
-    Button,
 } from "@mui/material";
 import VacationModel from "../../../Models/VacationModel";
 import "./VacationCard.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditVacation from "../EditVacation/EditVacation";
-import UserModel from "../../../Models/UserModel";
+import FollowVacation from "../FollowVacation/FollowVacation";
+import { authStore } from "../../../Redux/AuthState";
 
 interface VacationCardProps {
     vacation: VacationModel;
-    user: UserModel
 }
 
+// Expand More Props: --------------------------------------------
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
@@ -37,25 +37,23 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+// ---------------------------------------------------------------
 
 function VacationCard(props: VacationCardProps): JSX.Element {
+    const userRoleId = authStore.getState().user.roleID
+
     const newFromDateFormat = new Date(props.vacation.fromDate).toISOString();
     const fromDate = newFromDateFormat.split("T", 1);
 
     const newUntilDateFormat = new Date(props.vacation.untilDate).toISOString();
     const untilDate = newUntilDateFormat.split("T", 1);
 
-    const [follow, setFollow] = useState(false);
     const [expanded, setExpanded] = useState(false);
-
-    const handleFollowClick = () => {
-        setFollow((current) => !current);
-    };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    
+
     return (
         <div className="VacationCard">
             <Card>
@@ -67,10 +65,8 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>
-                    <Button variant="contained" size="small" className="FollowersButton" disableRipple onClick={handleFollowClick}>
-                        {follow ? "Unfollow" : "Follow"} {props.vacation.followersCount}
-                    </Button>
-                    {props.user.roleID === 1 && (<><EditVacation key={props.vacation.id} /></>)}
+                    <FollowVacation vacation={props.vacation} />
+                    {userRoleId === 1 && (<><EditVacation key={props.vacation.vacationID} vacation={props.vacation} /></>)}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}

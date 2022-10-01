@@ -1,5 +1,4 @@
-import VacationModel from "../../../Models/VacationModel";
-import "./Pagination.css";
+import "./AppPagination.css";
 
 interface PaginationProps {
     vacationsPerPage: number,
@@ -7,7 +6,8 @@ interface PaginationProps {
     paginate: Function
 }
 
-function Pagination(props: PaginationProps): JSX.Element {
+function AppPagination(props: PaginationProps): JSX.Element {
+
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(props.totalVacations / props.vacationsPerPage); i++) {
@@ -18,7 +18,7 @@ function Pagination(props: PaginationProps): JSX.Element {
             <ul className="pagination">
                 {pageNumbers.map(num => (
                     <li key={num} className="page-item">
-                        <a onClick={() => props.paginate(num)} href="#" className="page-link">
+                        <a href="#!" onClick={() => props.paginate(num)} className="page-link">
                             {num}
                         </a>
                     </li>
@@ -27,4 +27,4 @@ function Pagination(props: PaginationProps): JSX.Element {
     );
 }
 
-export default Pagination;
+export default AppPagination;

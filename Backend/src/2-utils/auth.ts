@@ -62,13 +62,9 @@ function getUserRoleFromToken(authHeader: string): RoleModel {
 
   // Get the user:
   const user = container.user;
-
-    console.log(user);
     
     // Get user role:
     const role = user.roleID;
-    
-    console.log(role);
     
   return role;
 }

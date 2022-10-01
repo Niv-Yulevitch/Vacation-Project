@@ -25,7 +25,6 @@ router.get("/api/vacations/:id", verifyLoggedIn, async (request: Request, respon
     try {
         const id = +request.params.id;
         const vacation = await vacationsLogic.getOneVacation(id);
-        console.log(vacation)
         response.json(vacation);
     }
     catch (err: any) {

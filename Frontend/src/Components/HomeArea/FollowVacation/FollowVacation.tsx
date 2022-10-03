@@ -8,7 +8,7 @@ import vacationsService from "../../../Services/VacationsService";
 import "./FollowVacation.css";
 
 interface FollowVacationProps {
-    vacation: VacationModel
+    vacation: VacationModel;
 }
 
 function FollowVacation(props: FollowVacationProps): JSX.Element {
@@ -44,7 +44,7 @@ function FollowVacation(props: FollowVacationProps): JSX.Element {
 
     useEffect(() => {
         if (props.vacation.isFollowing === 1) { setIsFollowing(true) }
-    }, []);
+    }, [props]);
 
     return (
         <div className="FollowVacatoin">

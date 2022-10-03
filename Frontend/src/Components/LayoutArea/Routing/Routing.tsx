@@ -2,7 +2,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "../../AuthArea/Login/Login";
 import Logout from "../../AuthArea/Logout/Logout";
 import Register from "../../AuthArea/Register/Register";
-import Home from "../../VacationsArea/Home/Home";
+import Chart from "../../ChartArea/Chart/Chart";
+import Home from "../../HomeArea/Home/Home";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import "./Routing.css";
 
@@ -14,6 +15,7 @@ function Routing(): JSX.Element {
                 <Route path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/chart" element={<Chart />} />
                 <Route path="/" element={<Navigate to="/home" />} />
                 <Route path="*" element={<PageNotFound />} />
             </Routes>

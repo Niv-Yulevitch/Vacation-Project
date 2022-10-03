@@ -16,8 +16,6 @@ function EditVacation(props: EditVacationProps): JSX.Element {
 
     const { register, handleSubmit, formState, setValue } = useForm<VacationModel>();
 
-    const [fromDateValue, setFromDateValue] = useState<any>();
-    const [untilDateValue, setUntilDateValue] = useState<any>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

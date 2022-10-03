@@ -26,6 +26,10 @@ function VacationList(props: VacationListProps): JSX.Element {
             .catch((err) => notifyService.error(err));
     }, [vacations]);
     
+    // fucntion handleChange(e: any) {
+    //     setVacations
+    // }
+
     // Pagination Area: --------------------------------------------------------------------
     const indexOfLastVacation = currentPage * vacationsPerPage;
     const indexOfFirstVacation = indexOfLastVacation - vacationsPerPage;

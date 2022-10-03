@@ -12,6 +12,8 @@ export enum VacationsActionType {
   AddVacation = "AddVacation", // Add new vacation.
   UpdateVacation = "UpdateVacation", // Update existing vacation.
   DeleteVacation = "DeleteVacation", // Delete existing vacation.
+  Follow = "Follow",
+  Unfollow = "Unfollow"
 }
 
 // 3. Action - Object for describing a single operation on the state:
@@ -49,6 +51,22 @@ export function vacationsReducer ( currentState = new VacationsState(), action: 
             newState.vacations.splice(indexToDelete, 1); // Delete
         }
         break;
+
+    case VacationsActionType.Follow: // action.payload >>=> id of new follow
+        const fIndexToUpdate = newState.vacations.findIndex(v => v.vacationID === action.payload);
+        if (fIndexToUpdate >= 0) {
+            newState.vacations[fIndexToUpdate].followersCount++;
+            newState.vacations[fIndexToUpdate].isFollowing = 1;
+        }
+        break;
+
+    case VacationsActionType.Unfollow: // action.payload >>=> id of follow to delete
+        const fIndexToDelete = newState.vacations.findIndex(v => v.vacationID === action.payload);
+        if (fIndexToDelete >= 0) {
+            newState.vacations[fIndexToDelete].followersCount--;
+            newState.vacations[fIndexToDelete].isFollowing = 0;
+            break;
+        }
   }
 
   return newState; // Return the new state

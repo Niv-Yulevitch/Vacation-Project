@@ -17,6 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditVacation from "../EditVacation/EditVacation";
 import FollowVacation from "../FollowVacation/FollowVacation";
 import { authStore } from "../../../Redux/AuthState";
+import { vacationsStore } from "../../../Redux/VacationsState";
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -40,6 +41,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 // ---------------------------------------------------------------
 
 function VacationCard(props: VacationCardProps): JSX.Element {
+    const [vacation, setVacation] = useState<VacationModel>();
+
     const userRoleId = authStore.getState().user.roleID
 
     const newFromDateFormat = new Date(props.vacation.fromDate).toISOString();
@@ -54,19 +57,33 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         setExpanded(!expanded);
     };
 
+    useEffect(() => {
+        // setFollowing(vacationsStore.getState().following);
+        const vacation = vacationsStore.getState().vacations.find(v => v.vacationID === props.vacation.vacationID);
+        setVacation(vacation);
+
+        const unsubscribe = vacationsStore.subscribe(() => {
+            // setFollowing(vacationsStore.getState().following);
+            const newVacation = { ...vacationsStore.getState().vacations.find(v => v.vacationID === props.vacation.vacationID) };
+            setVacation(newVacation);
+        });
+        return unsubscribe;
+    }, []);
+
     return (
         <div className="VacationCard">
-            <Card>
-                <CardHeader title={props.vacation.destination} subheader={fromDate + " ➡️ " + untilDate} />
+            {vacation && <>
+                <Card>
+                <CardHeader title={vacation.destination} subheader={fromDate + " ➡️ " + untilDate} />
                 <CardMedia
                     component="img"
                     height="160"
-                    image={`http://localhost:3001/api/vacations/images/${props.vacation.imageName}`}
+                    image={`http://localhost:3001/api/vacations/images/${vacation.imageName}`}
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>
-                    <FollowVacation vacation={props.vacation} />
-                    {userRoleId === 1 && (<><EditVacation key={props.vacation.vacationID} vacation={props.vacation} /></>)}
+                    <FollowVacation vacation={vacation} />
+                    {userRoleId === 1 && (<><EditVacation key={vacation.vacationID} vacation={vacation} /></>)}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
@@ -79,14 +96,15 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography variant="body2" color="text.secendery">
-                            <b>Description:</b> {props.vacation.description}
+                            <b>Description:</b> {vacation.description}
                         </Typography>
                         <Typography variant="body2" color="text.secendery">
-                            <b>Price:</b> {props.vacation.price}$
+                            <b>Price:</b> {vacation.price}$
                         </Typography>
                     </CardContent>
                 </Collapse>
             </Card>
+            </>}
         </div>
     );
 }

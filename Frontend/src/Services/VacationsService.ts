@@ -138,16 +138,26 @@ class VacationsService {
 
   // Add new follower:
   public async follow(follower: FollowerModel): Promise<void> {
-
     // Send follower to backend:
     await axios.post<FollowerModel>(appConfig.followUrl, follower);
+
+    const action: VacationsAction = {
+      type: VacationsActionType.Follow, 
+      payload: follower.vacationID
+    };
+    vacationsStore.dispatch(action);
   }
 
   // Delete follower:
   public async unFollow(follower: FollowerModel): Promise<void> {
-
     // Send follower to backend:
     await axios.post<FollowerModel>(appConfig.unFollowUrl, follower);
+    
+    const action: VacationsAction = {
+      type: VacationsActionType.Unfollow,
+      payload: follower.vacationID
+    };
+    vacationsStore.dispatch(action);
   }
 }
 

@@ -24,6 +24,12 @@ function VacationList(props: VacationListProps): JSX.Element {
             .getAllVacations(props.user.userID)
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
+
+        const unsubscribeVacations = vacationsStore.subscribe(() => 
+            vacationsService.getAllVacations(props.user.userID)
+                .then((vacations) => setVacations(vacations))
+                .catch(err => notifyService.error(err)));
+        return unsubscribeVacations;
     }, [vacations]);
     
     // Pagination Area: --------------------------------------------------------------------

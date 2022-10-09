@@ -2,7 +2,7 @@ import { UploadedFile } from "express-fileupload";
 import Joi from "joi";
 
 class VacationModel {
-    public id: number;
+    public vacationID: number;
     public destination: string;
     public description: string;
     public image: UploadedFile
@@ -14,7 +14,7 @@ class VacationModel {
     public followersCount: number;
 
     public constructor(vacation: VacationModel) {
-        this.id = vacation.id;
+        this.vacationID = vacation.vacationID;
         this.destination = vacation.destination;
         this.description = vacation.description;
         this.image = vacation.image;
@@ -27,7 +27,7 @@ class VacationModel {
     };
 
     private static validationSchema = Joi.object({
-        id: Joi.number().optional().positive().integer(),
+        vacationID: Joi.number().optional().positive().integer(),
         destination: Joi.string().required().min(2).max(50),
         description: Joi.string().required().min(2).max(550),
         image: Joi.object().optional(),

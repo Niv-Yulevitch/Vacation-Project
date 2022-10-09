@@ -1,7 +1,6 @@
-import { Card, CardActions, CardContent, Fab, Menu, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, Container, Fab, Menu, Typography } from "@mui/material";
 import { useState } from "react";
 import "./AddVacation.css";
-import AddIcon from "@mui/icons-material/Add";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import notifyService from "../../../Services/NotifyService";
@@ -11,16 +10,6 @@ import vacationsService from "../../../Services/VacationsService";
 function AddVacation(): JSX.Element {
     const [fromDateValue, setFromDateValue] = useState<any>();
     const [untilDateValue, setUntilDateValue] = useState<any>();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const { register, handleSubmit, formState } = useForm<VacationModel>();
 
@@ -30,7 +19,7 @@ function AddVacation(): JSX.Element {
         try {
             await vacationsService.addVacation(vacation);
             notifyService.success("Added!");
-            navigate("/home");
+            navigate("/");
         } catch (err: any) {
             notifyService.error(err);
         }
@@ -39,11 +28,7 @@ function AddVacation(): JSX.Element {
     const today = new Date().toISOString().split("T")[0].toString();
 
     return (
-        <div className="AddVacation">
-            <Fab color="primary" aria-label="add" onClick={handleMenu}>
-                <AddIcon />
-            </Fab>
-            <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{ vertical: "top", horizontal: "left" }} keepMounted transformOrigin={{ vertical: "top", horizontal: "left", }} open={Boolean(anchorEl)} onClose={handleClose}>
+        <Container className="AddVacation" maxWidth="sm">
                 <form onSubmit={handleSubmit(send)} className="AddVacationForm">
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
@@ -100,8 +85,7 @@ function AddVacation(): JSX.Element {
                         </CardActions>
                     </Card>
                 </form>
-            </Menu>
-        </div>
+        </Container>
     );
 }
 

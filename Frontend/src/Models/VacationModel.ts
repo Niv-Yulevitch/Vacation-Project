@@ -9,6 +9,8 @@ class VacationModel {
     public price: number;
     public isFollowing: number;
     public followersCount: number;
+    public fromDateString: string;
+    public untilDateString: string;
 }
 
 export default VacationModel

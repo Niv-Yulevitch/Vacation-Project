@@ -65,7 +65,7 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
     vacation.price,
   ]);
 
-  vacation.id = result.insertId;
+  vacation.vacationID = result.insertId;
 
   return vacation;
 }
@@ -74,8 +74,6 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
 async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
   const error = vacation.validate();
   if (error) throw new ValidationError(error);
-
-    console.log(vacation);
 
   if (vacation.image) {
     await safeDelete("./src/1-assets/images/" + vacation.imageName);
@@ -93,18 +91,19 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
                     fromDate = ?,
                     untilDate = ?,
                     price = ?`
+
   let values = [];
-  if (vacation.image === undefined) {
+  if (vacation.imageName === undefined) {
     sql += ` WHERE vacationID = ?`
-    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.id]
+    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.vacationID]
   } else {
-    sql += `, imageName = ? WHERE vacationId = ?`
-    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.imageName, vacation.id]
+    sql += `, imageName = ? WHERE vacationID = ?`
+    values = [vacation.destination, vacation.description, vacation.fromDate, vacation.untilDate, vacation.price, vacation.imageName, vacation.vacationID]
   }
 
   const result: OkPacket = await dal.execute(sql, values);
 
-  if (result.affectedRows === 0) throw new IdNotFoundError(vacation.id);
+  if (result.affectedRows === 0) throw new IdNotFoundError(vacation.vacationID);
 
   return vacation;
 }

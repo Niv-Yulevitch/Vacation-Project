@@ -2,7 +2,6 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
-import { vacationsStore } from "../../../Redux/VacationsState";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
 import "./FollowVacation.css";

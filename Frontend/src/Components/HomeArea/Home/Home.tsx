@@ -3,7 +3,6 @@ import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
 import Login from "../../AuthArea/Login/Login";
 import "./Home.css";
-import AddVacation from "../AddVacation/AddVacation";
 import VacationList from "../VacationList/VacationList";
 
 function Home(): JSX.Element {
@@ -22,8 +21,6 @@ function Home(): JSX.Element {
         };
     }, []);
 
-    let userRole = user?.roleID;
-
     return (
         <div className="Home">
             {!user && (
@@ -32,20 +29,11 @@ function Home(): JSX.Element {
                 </>
             )}
 
-            {userRole === 1 && (
-                <>
-                    <AddVacation />
+            {user && <>
+                <VacationList />
+            </>}
 
-                    <VacationList key={user.userID} user={user}/>
 
-                </>
-            )}
-
-            {userRole === 2 && (
-                <>
-                    <VacationList key={user.userID} user={user}/>
-                </>
-            )}
         </div>
     );
 }

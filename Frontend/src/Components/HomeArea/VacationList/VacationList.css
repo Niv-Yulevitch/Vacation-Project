@@ -2,3 +2,9 @@
 	margin: auto;
     width: 90%;
 }
+
+.VacationList > a > .AddVacationButton {
+    position: absolute;
+    right: 30px;
+    top: 100px;
+}

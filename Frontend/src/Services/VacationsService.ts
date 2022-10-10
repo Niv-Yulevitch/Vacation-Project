@@ -117,6 +117,7 @@ class VacationsService {
 
   // Update vacation:
   public async updateVacation(vacation: VacationModel): Promise<void> {
+
     // Convert VacationModel into FormData because we need to send text + image:
     const fromDateValue = new Date(vacation.fromDateString).toISOString().split("T")[0].toString();
     const untilDateValue = new Date(vacation.untilDateString).toISOString().split("T")[0].toString();
@@ -141,6 +142,10 @@ class VacationsService {
     
     const untilDateBeforeSplit = new Date(updatedVacation.untilDate).toISOString();
     updatedVacation.untilDateString = untilDateBeforeSplit.split("T", 1).toString();
+
+    if(!updatedVacation.imageName) {
+        updatedVacation.imageName = vacation.imageName
+    }
 
     // Send updated vacation to redux global state:
     const action: VacationsAction = {

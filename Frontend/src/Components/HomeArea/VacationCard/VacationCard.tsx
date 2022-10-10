@@ -61,13 +61,13 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     useEffect(()=>{
         const currentVacation = vacationsStore.getState().vacations.find(v => v.vacationID === props.vacation.vacationID);
         setVacation(currentVacation);
-
+        
         const unsubscribe = vacationsStore.subscribe(() => {
             setVacation({...currentVacation});
         });
 
         return () => { unsubscribe() };
-    }, [props])
+    }, [vacation, props])
 
     async function deleteVacation() {
         try {

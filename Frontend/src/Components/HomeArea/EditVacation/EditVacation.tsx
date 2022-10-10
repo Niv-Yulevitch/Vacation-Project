@@ -17,7 +17,7 @@ function EditVacation(): JSX.Element {
 
     useEffect(() => {
         const id = +params.vId;
-
+        
         vacationsService
             .getOneVacation(id)
             .then((v) => {
@@ -27,6 +27,7 @@ function EditVacation(): JSX.Element {
                 setValue("fromDateString", v.fromDateString);
                 setValue("untilDateString", v.untilDateString);
                 setValue("price", v.price);
+                setValue("imageName", v.imageName);
             })
             .catch((err) => notifyService.error(err));
     }, []);
@@ -51,6 +52,7 @@ function EditVacation(): JSX.Element {
                             Edit Vacation
                         </Typography>
                         <input type="hidden" {...register("vacationID")} />
+                        <input type="hidden" {...register("imageName")} />
 
                         <label>Destination:</label>
                         <input type="text" {...register("destination", {

@@ -36,7 +36,7 @@ function VacationList(): JSX.Element {
             .getAllVacations(user.userID)
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
-            
+    
         const unsubscribe = vacationsStore.subscribe(() => {
             setVacations(vacationsStore.getState().vacations);
         });

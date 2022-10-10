@@ -38,11 +38,12 @@ export function vacationsReducer ( currentState = new VacationsState(), action: 
         break;
 
     case VacationsActionType.UpdateVacation: // Here payload must be the vacation to update.
-        const indexToUpdate = newState.vacations.findIndex(v => v.vacationID === action.payload.id); // -1 if not exist.
+        const indexToUpdate = newState.vacations.findIndex(v => v.vacationID === action.payload.vacationID); // -1 if not exist.
         
         if (indexToUpdate >= 0) {
             newState.vacations[indexToUpdate] = action.payload; // Update
         }
+
         break;
 
     case VacationsActionType.DeleteVacation: // Here payload must be id to delete.

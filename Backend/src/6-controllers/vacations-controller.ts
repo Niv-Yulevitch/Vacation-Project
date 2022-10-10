@@ -49,7 +49,7 @@ router.put("/api/vacations/:id", verifyAdmin, async (request: Request, response:
     try {
         request.body.image = request.files?.image;
         const id = +request.params.id;
-        request.body.id = id;
+        request.body.vacationID = id;
         const vacation = new VacationModel(request.body);
         const updatedVacation = await vacationsLogic.updateVacation(vacation);
         response.json(updatedVacation);

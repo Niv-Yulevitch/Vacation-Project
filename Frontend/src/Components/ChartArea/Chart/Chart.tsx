@@ -14,6 +14,7 @@ import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
 import { authStore } from "../../../Redux/AuthState";
+import { Container } from "@mui/material";
 
 ChartJS.register(
     CategoryScale,
@@ -25,14 +26,15 @@ ChartJS.register(
 );
 
 function Chart(): JSX.Element {
-    const user = authStore.getState().user
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
 
     useEffect(() => {
+        const user = authStore.getState().user;
+
         vacationsService
             .getAllVacations(user.userID)
-            .then((vacations) => setVacations(vacations))
+            .then((vacations) => setVacations(vacations.filter((v)=>{return v.followersCount > 0})))
             .catch((err) => notifyService.error(err));
     }, []);
 
@@ -50,6 +52,7 @@ function Chart(): JSX.Element {
                 text: 'Vacations Followers',
             },
         },
+        
     };
 
 
@@ -65,9 +68,9 @@ function Chart(): JSX.Element {
     };
 
     return (
-        <div className="Chart">
+        <Container className="Chart">
             <Bar options={options} data={data} />
-        </div>
+        </Container>
     );
 }
 

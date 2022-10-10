@@ -34,4 +34,16 @@ router.post(
     }
   );
 
+//* GET http://localhost:3001/api/auth/:username
+router.get("/api/auth/:username", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const username = request.params.username;
+        const exists = await authLogic.usernameIsTaken(username);
+        response.json(exists);
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
+
 export default router;

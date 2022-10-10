@@ -23,6 +23,8 @@ class VacationsService {
       // Extract vacations from axios response:
       vacations = response.data;
 
+      vacations.sort((v1, v2) => {return new Date(v2.fromDate).valueOf() - new Date(v1.fromDate).valueOf()})
+
       vacations.map(v => {
         v.fromDateString = new Date(v.fromDate).toLocaleDateString('he-IL');
 

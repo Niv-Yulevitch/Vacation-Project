@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Card,
     CardHeader,
@@ -23,6 +23,7 @@ import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { vacationsStore } from "../../../Redux/VacationsState";
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -49,12 +50,24 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     const userRoleId = authStore.getState().user.roleID
 
     const [expanded, setExpanded] = useState(false);
+    const [vacation, setVacation] = useState<VacationModel>();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const currentVacation = vacationsStore.getState().vacations.find(v => v.vacationID === props.vacation.vacationID);
+        setVacation(currentVacation);
+
+        const unsubscribe = vacationsStore.subscribe(() => {
+            setVacation({...currentVacation});
+        });
+
+        return () => { unsubscribe() };
+    }, [props])
 
     async function deleteVacation() {
         try {
@@ -70,19 +83,18 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     return (
         <div className="VacationCard">
-            {props.vacation && <>
+            {vacation && <>
                 <Card>
-                <CardHeader title={props.vacation.destination} subheader={props.vacation.fromDateString + " ➡️ " + props.vacation.untilDateString} />
+                <CardHeader title={vacation.destination} subheader={vacation.fromDateString + " ➡️ " + vacation.untilDateString} />
                 <CardMedia
                     component="img"
-                    height="160"
-                    image={`http://localhost:3001/api/vacations/images/${props.vacation.imageName}`}
+                    image={`http://localhost:3001/api/vacations/images/${vacation.imageName}`}
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>
-                    {userRoleId === 2 && <FollowVacation vacation={props.vacation} />}
+                    {userRoleId === 2 && <FollowVacation vacation={vacation} />}
                     {userRoleId === 1 && (<>
-                        <NavLink to={"/vacations/edit/" + props.vacation.vacationID}>
+                        <NavLink to={"/vacations/edit/" + vacation.vacationID}>
                             <Fab color="primary" size="small" aria-label="edit" className="EditButton">
                                 <EditIcon />
                             </Fab>
@@ -103,10 +115,10 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography variant="body2" color="text.secendery">
-                            <b>Description:</b> {props.vacation.description}
+                            <b>Description:</b> {vacation.description}
                         </Typography>
                         <Typography variant="body2" color="text.secendery">
-                            <b>Price:</b> {props.vacation.price}$
+                            <b>Price:</b> {vacation.price}$
                         </Typography>
                     </CardContent>
                 </Collapse>

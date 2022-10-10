@@ -5,6 +5,7 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
@@ -14,11 +15,18 @@ import "./Register.css";
 
 function Register(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<UserModel>();
+  const [isTaken, setIsTaken] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   async function send(user: UserModel) {
     try {
+      const isTaken = await authService.usernameIsTaken(user.username);
+      if(isTaken) {
+        setIsTaken(true);
+        return;
+      }else {setIsTaken(false)};
+      
       await authService.register(user);
       notifyService.success("Welcome!");
       navigate("/home");
@@ -91,7 +99,8 @@ function Register(): JSX.Element {
                   },
                 })}
               />
-              <span>{formState.errors.username?.message}</span>
+              {formState.errors.username?.message && <span>{formState.errors.username?.message}</span> || isTaken && <span>Username is taken</span>}
+              {/* {isTaken && <span>Username is taken</span>} */}
             </Typography>
             <Typography variant="body2">
               <label>Password:</label>

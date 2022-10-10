@@ -11,7 +11,7 @@ function Home(): JSX.Element {
     // AJAX Side Effect:
     useEffect(() => {
         setUser(authStore.getState().user);
-
+        
         const unsubscribe = authStore.subscribe(() => {
             setUser(authStore.getState().user);
         });

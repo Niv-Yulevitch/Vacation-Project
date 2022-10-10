@@ -24,6 +24,8 @@ async function register(user: UserModel): Promise<string> {
 
   const result: OkPacket = await dal.execute(sql, [user.firstName,user.lastName,user.username,user.password,user.roleID + 1]);
 
+  user.roleID = RoleModel.User+1;
+
   user.userID = result.insertId;
 
   //Delete password:
@@ -69,7 +71,23 @@ async function login(credentials: CredentialsModel): Promise<string> {
   return token;
 }
 
+//* Check if the username is taken:
+async function usernameIsTaken(username: string): Promise<boolean> {
+    
+    const sql = `SELECT
+                    1 FROM users
+                    WHERE username = ?`;
+    const users = await dal.execute(sql, username);
+    
+    if(users.length > 0) {
+        return true
+    } else {
+        return false
+    };
+}
+
 export default {
   register,
   login,
+  usernameIsTaken
 };

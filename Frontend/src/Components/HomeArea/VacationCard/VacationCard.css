@@ -3,7 +3,12 @@
     text-align: left;
     padding: 10px;
     width: 250px;
-} 
+}
+
+.VacationCard > div > img {
+    height: 150px;
+    width: 250px;
+}
 
 .VacationCard > div:last-child {
     margin: auto;

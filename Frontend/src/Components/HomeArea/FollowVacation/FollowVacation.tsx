@@ -4,7 +4,6 @@ import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
-import "./FollowVacation.css";
 
 interface FollowVacationProps {
     vacation: VacationModel;

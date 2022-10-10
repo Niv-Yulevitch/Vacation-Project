@@ -44,7 +44,7 @@ function VacationList(): JSX.Element {
         setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
 
         return () => { unsubscribe() };
-    }, [vacations]);
+    }, [vacations, user]);
 
     return (
         <div className="VacationListOutside">

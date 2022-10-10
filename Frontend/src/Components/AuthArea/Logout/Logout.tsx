@@ -11,7 +11,7 @@ function Logout(): JSX.Element {
         try {
             authService.logout();
             notifyService.success("Bye bye...");
-            navigate("/home");
+            navigate("/");
         }
         catch (err: any) {
             notifyService.error(err);            

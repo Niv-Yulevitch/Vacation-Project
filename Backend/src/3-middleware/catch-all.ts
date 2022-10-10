@@ -10,7 +10,7 @@ async function catchAll(err: any, request: Request, response: Response, next: Ne
     
     //* Log error in a log file:
     const now = new Date();
-    await fsPromises.appendFile(fileName, `${now}, ${err}`);
+    await fsPromises.appendFile(fileName, `${now} -> ${err.status}: ${err.message}\n----------------------------------------------------------------------------------------------\n`);
 
     //* Get status code:
     const statusCode = err.status ? err.status : 500;

@@ -15,10 +15,11 @@ import "./VacationList.css";
 function VacationList(): JSX.Element {
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
-    const itemsPerPage = 8;
+    const itemsPerPage = 10;
     const [page, setPage] = useState<number>(1);
     const [numOfPages, setNumOfPage] = useState<number>();
     const [checked, setChecked] = useState<boolean>(false);
+    const [followingVacations, setFollowingVacations] = useState<VacationModel[]>([])
 
     const user = authStore.getState().user;
 
@@ -36,8 +37,12 @@ function VacationList(): JSX.Element {
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
 
+        setFollowingVacations(vacations.filter((v) => { return v.isFollowing === 1 }))
+
         setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
-    }, [vacations, user]);
+
+        if(checked) {setNumOfPage(Math.ceil(followingVacations.length / itemsPerPage))}
+    }, [vacations, user, checked, followingVacations]);
 
     return (
         <div className="VacationList">
@@ -65,7 +70,7 @@ function VacationList(): JSX.Element {
                 </FormGroup>
             </>}
 
-            {checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).filter((v) => { return v.isFollowing === 1 }).map(vac => { return (<VacationCard key={vac.vacationID} vacation={vac} />) })}
+            {checked && followingVacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(vac => { return (<VacationCard key={vac.vacationID} vacation={vac} />) })}
             {!checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(v => { return (<VacationCard key={v.vacationID} vacation={v} />) })}
 
 

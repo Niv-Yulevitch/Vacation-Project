@@ -84,7 +84,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     return (
         <div className="VacationCard">
             {vacation && <>
-                <Card>
+                <Card className="CardMui">
                 <CardHeader className="CardHeader" title={vacation.destination} subheader={vacation.fromDateString + " ➡️ " + vacation.untilDateString} />
                 <CardMedia
                     component="img"

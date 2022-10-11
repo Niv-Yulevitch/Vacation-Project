@@ -76,8 +76,6 @@ class VacationsService {
       vacation = vacations.find((v) => v.vacationID === id);
     }
 
-    console.log(vacation);
-
     vacation.fromDateString = this.DateFormat(vacation.fromDate);
     vacation.untilDateString = this.DateFormat(vacation.untilDate);
 
@@ -116,8 +114,6 @@ class VacationsService {
 
     addedVacation.fromDateString = new Date(addedVacation.fromDate).toLocaleDateString('he-IL');
     addedVacation.untilDateString = new Date(addedVacation.untilDate).toLocaleDateString('he-IL');
-
-    console.log(addedVacation);
 
     // Send added vacation to redux global state:
     const action: VacationsAction = {
@@ -206,11 +202,9 @@ class VacationsService {
   }
 
   private DateFormat(date: Date) {
-    console.log(date);
     const dateToLocalDate = new Date(date).toLocaleDateString("he-IL", {timeZone:'Asia/Jerusalem',year: 'numeric', month: '2-digit', day: '2-digit'})
     const dateSplit = dateToLocalDate.split(".");
     const dateFormat = dateSplit[2]+"-"+dateSplit[1]+"-"+dateSplit[0];
-    console.log(dateFormat);
     return dateFormat;
   }
 }

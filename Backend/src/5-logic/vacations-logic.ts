@@ -29,7 +29,7 @@ async function getOneVacation(id: number): Promise<VacationModel> {
   const sql = `SELECT
                   * 
                   FROM vacations
-                  WHERE vacation vacationID = ?`;
+                  WHERE vacationID = ?`;
 
   const vacations = await dal.execute(sql, id); // returns empty array if not found
 

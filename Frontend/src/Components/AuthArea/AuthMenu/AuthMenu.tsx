@@ -1,10 +1,13 @@
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
-
 import "./AuthMenu.css";
+
+const StyledButton = styled(Button)(`
+  text-transform: none;
+`);
 
 function AuthMenu(): JSX.Element {
   const [user, setUser] = useState<UserModel>();
@@ -26,13 +29,13 @@ function AuthMenu(): JSX.Element {
       {!user && (
         <>
           <span>Hello Guest | </span>
-          <ButtonGroup>
-            <Button variant="contained">
+          <ButtonGroup size="small">
+            <StyledButton variant="contained">
               <NavLink to="/login">Sign in</NavLink>
-            </Button>
-            <Button variant="contained">
+            </StyledButton>
+            <StyledButton variant="contained">
               <NavLink to="/register">Register</NavLink>
-            </Button>
+            </StyledButton>
           </ButtonGroup>
         </>
       )}
@@ -42,9 +45,9 @@ function AuthMenu(): JSX.Element {
           <span>
             {user.firstName} {user.lastName} |{" "}
           </span>
-          <Button variant="contained">
+          <StyledButton variant="contained">
             <NavLink to="/logout">Logout</NavLink>
-          </Button>
+          </StyledButton>
         </>
       )}
     </div>

@@ -71,9 +71,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     async function deleteVacation() {
         try {
-            const iAmSure = window.confirm(`Are you sure you want to delete "${props.vacation.destination}" vacation?`);
+            const iAmSure = window.confirm(`Are you sure you want to delete "${vacation.destination}" vacation?`);
             if (!iAmSure) return;
-            await vacationsService.deleteVacation(props.vacation.vacationID);
+            await vacationsService.deleteVacation(vacation.vacationID);
             notifyService.success("Deleted!");
             navigate("/")
         } catch (err: any) {
@@ -85,7 +85,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         <div className="VacationCard">
             {vacation && <>
                 <Card>
-                <CardHeader title={vacation.destination} subheader={vacation.fromDateString + " ➡️ " + vacation.untilDateString} />
+                <CardHeader className="CardHeader" title={vacation.destination} subheader={vacation.fromDateString + " ➡️ " + vacation.untilDateString} />
                 <CardMedia
                     component="img"
                     image={`http://localhost:3001/api/vacations/images/${vacation.imageName}`}
@@ -113,10 +113,11 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     </ExpandMore>
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
+                    <CardContent className="CardContent">
                         <Typography variant="body2" color="text.secendery">
                             <b>Description:</b> {vacation.description}
                         </Typography>
+                        <br/>
                         <Typography variant="body2" color="text.secendery">
                             <b>Price:</b> {vacation.price}$
                         </Typography>

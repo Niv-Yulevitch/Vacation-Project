@@ -6,13 +6,15 @@ import vacationsLogic from "../5-logic/vacations-logic";
 import fs from "fs";
 import locations from "../2-utils/locations";
 import FollowerModel from "../4-models/followers-model";
+import auth from "../2-utils/auth";
 
 const router = express.Router();
 
-// GET http://localhost:3001/api/vacations/:userID
-router.get("/api/vacations/:userID", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+// GET http://localhost:3001/api/vacations/
+router.get("/api/vacations/", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const userID = +request.params.userID
+        const authHeader = request.header("authorization");
+        const userID = auth.getUserIdFromToken(authHeader)
         const vacations = await vacationsLogic.getAllVacations(userID);
         response.json(vacations);
     } catch (err: any) {
@@ -33,7 +35,7 @@ router.get("/api/vacations/:id", verifyLoggedIn, async (request: Request, respon
 });
 
 // POST http://localhost:3001/api/vacations
-router.post("/api/vacations", verifyAdmin ,async (request: Request, response: Response, next: NextFunction) => {
+router.post("/api/vacations",verifyAdmin ,async (request: Request, response: Response, next: NextFunction) => {
     try {
         request.body.image = request.files?.image;
         const vacation = new VacationModel(request.body);
@@ -45,7 +47,7 @@ router.post("/api/vacations", verifyAdmin ,async (request: Request, response: Re
 });
 
 // PUT http://localhost:3001/api/vacations/:id
-router.put("/api/vacations/:id", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+router.put("/api/vacations/:id",verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         request.body.image = request.files?.image;
         const id = +request.params.id;

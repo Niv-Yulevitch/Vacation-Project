@@ -32,7 +32,7 @@ function Chart(): JSX.Element {
         const user = authStore.getState().user;
 
         vacationsService
-            .getAllVacations(user.userID)
+            .getAllVacations()
             .then((vacations) => setVacations(vacations.filter((v)=>{return v.followersCount > 0})))
             .catch((err) => notifyService.error(err));
     }, []);

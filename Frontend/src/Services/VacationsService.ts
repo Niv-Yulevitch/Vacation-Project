@@ -1,6 +1,7 @@
 import axios from "axios";
 import FollowerModel from "../Models/FollowerModel";
 import VacationModel from "../Models/VacationModel";
+import { authStore } from "../Redux/AuthState";
 import {
   VacationsAction,
   VacationsActionType,
@@ -8,22 +9,31 @@ import {
 } from "../Redux/VacationsState";
 import appConfig from "../Utils/Config";
 class VacationsService {
-  // Get all vacations from backend:
-  public async getAllVacations(userId: number): Promise<VacationModel[]> {
-    // Take vacations resides in redux global state:
-    let vacations = vacationsStore.getState().vacations;
+    public async checkEmpty(): Promise<void> {
+        if (vacationsStore.getState().vacations === null) await this.getAllVacations();
+    }
+    
+    public flushAll(): void {
+        const action: VacationsAction = { type: VacationsActionType.FetchVacations, payload: null };
+        vacationsStore.dispatch(action);
+    }
 
-    // If we have no vacations in global state - fetch them from server:
-    if (vacations.length === 0) {
+  // Get all vacations from backend:
+  public async getAllVacations(): Promise<VacationModel[]> {
+    
+    if (vacationsStore.getState().vacations?.length > 0) {
+        return vacationsStore.getState().vacations;
+    }
+
       // Fetch all vacations from backend:
       const response = await axios.get<VacationModel[]>(
-        appConfig.vacationsUrl + userId
+        appConfig.vacationsUrl
       );
 
       // Extract vacations from axios response:
-      vacations = response.data;
+      const vacations = response.data;
 
-      vacations.sort((v1, v2) => {return new Date(v2.fromDate).valueOf() - new Date(v1.fromDate).valueOf()})
+      vacations.sort((v1, v2) => {return new Date(v1.fromDate).valueOf() - new Date(v2.fromDate).valueOf()})
 
       vacations.map(v => {
         v.fromDateString = new Date(v.fromDate).toLocaleDateString('he-IL');
@@ -39,7 +49,6 @@ class VacationsService {
         payload: vacations,
       };
       vacationsStore.dispatch(action); // Redux will call vacationReducer to perform this action.
-    }
 
     // Return vacations:
     return vacations;
@@ -67,6 +76,8 @@ class VacationsService {
       vacation = vacations.find((v) => v.vacationID === id);
     }
 
+    console.log(vacation);
+
     vacation.fromDateString = this.DateFormat(vacation.fromDate);
     vacation.untilDateString = this.DateFormat(vacation.untilDate);
 
@@ -76,6 +87,8 @@ class VacationsService {
 
   // Add new vacation:
   public async addVacation(vacation: VacationModel): Promise<void> {
+    await this.checkEmpty();
+
     // Convert VacationModel into FormData because we need to send text + image:
     const fromDateValue = vacation.fromDate
       .toISOString()
@@ -100,12 +113,11 @@ class VacationsService {
       formData
     );
     const addedVacation = response.data;
-    
-    const fromDateBeforeSplit = new Date(addedVacation.fromDate).toISOString();
-    addedVacation.fromDateString = fromDateBeforeSplit.split("T", 1).toString();
-    
-    const untilDateBeforeSplit = new Date(addedVacation.untilDate).toISOString();
-    addedVacation.untilDateString = untilDateBeforeSplit.split("T", 1).toString();
+
+    addedVacation.fromDateString = new Date(addedVacation.fromDate).toLocaleDateString('he-IL');
+    addedVacation.untilDateString = new Date(addedVacation.untilDate).toLocaleDateString('he-IL');
+
+    console.log(addedVacation);
 
     // Send added vacation to redux global state:
     const action: VacationsAction = {
@@ -117,6 +129,7 @@ class VacationsService {
 
   // Update vacation:
   public async updateVacation(vacation: VacationModel): Promise<void> {
+    await this.checkEmpty();
 
     // Convert VacationModel into FormData because we need to send text + image:
     const fromDateValue = new Date(vacation.fromDateString).toISOString().split("T")[0].toString();
@@ -193,10 +206,12 @@ class VacationsService {
   }
 
   private DateFormat(date: Date) {
+    console.log(date);
     const dateToLocalDate = new Date(date).toLocaleDateString("he-IL", {timeZone:'Asia/Jerusalem',year: 'numeric', month: '2-digit', day: '2-digit'})
     const dateSplit = dateToLocalDate.split(".");
-    const dateFormate = dateSplit[2]+"-"+dateSplit[1]+"-"+dateSplit[0];
-    return dateFormate;
+    const dateFormat = dateSplit[2]+"-"+dateSplit[1]+"-"+dateSplit[0];
+    console.log(dateFormat);
+    return dateFormat;
   }
 }
 

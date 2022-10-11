@@ -5,6 +5,10 @@
     width: 250px;
 }
 
+.VacationCard .CardHeader {
+    width: 230px;
+}
+
 .VacationCard > div > img {
     height: 150px;
     width: 250px;
@@ -41,4 +45,9 @@
 
 .VacationCard .FollowersButton:focus {
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}
+
+.VacationCard .CardContent {
+    height: 250px;
+    overflow: auto;
 }

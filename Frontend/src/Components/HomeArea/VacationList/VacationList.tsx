@@ -22,7 +22,7 @@ function VacationList(): JSX.Element {
     const [checked, setChecked] = useState<boolean>(false);
 
     const user = authStore.getState().user;
-    
+
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
@@ -33,54 +33,50 @@ function VacationList(): JSX.Element {
 
     useEffect(() => {
         vacationsService
-            .getAllVacations(user.userID)
+            .getAllVacations()
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
-    
-        const unsubscribe = vacationsStore.subscribe(() => {
-            setVacations(vacationsStore.getState().vacations);
-        });
+
+        // const unsubscribe = vacationsStore.subscribe(() => {
+        //     setVacations(vacationsStore.getState().vacations);
+        // });
 
         setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
 
-        return () => { unsubscribe() };
+        // return () => { unsubscribe() };
     }, [vacations, user]);
 
     return (
-        <div className="VacationListOutside">
-            <div className="VacationListInside">
-                {vacations.length === 0 && <Loading />}
+        <div className="VacationList">
+            {vacations.length === 0 && <Loading />}
 
-                {user.roleID === 1 && <>
-                    <NavLink to="/vacations/add">
-                        <Fab color="primary" aria-label="add" className="AddVacationButton">
-                            <AddIcon />
-                        </Fab>
-                    </NavLink>
-                </>}
+            {user.roleID === 1 && <>
+                <NavLink to="/vacations/add">
+                    <Fab color="primary" aria-label="add" className="AddVacationButton">
+                        <AddIcon />
+                    </Fab>
+                </NavLink>
+            </>}
 
-                {user.roleID === 2 && <>
-                    <FormGroup className="isFollowingButton">
-                        <FormControlLabel control={
-                            <Checkbox
-                                checked={checked}
-                                onChange={handleCheckBoxChange}
-                                icon={<BookmarkBorderIcon />}
-                                checkedIcon={<BookmarkIcon />} />
-                        }
-                            label="Following"
-                        />
-                    </FormGroup>
-                </>}
+            {user.roleID === 2 && <>
+                <FormGroup className="isFollowingButton">
+                    <FormControlLabel control={
+                        <Checkbox
+                            checked={checked}
+                            onChange={handleCheckBoxChange}
+                            icon={<BookmarkBorderIcon />}
+                            checkedIcon={<BookmarkIcon />} />
+                    }
+                        label="Following"
+                    />
+                </FormGroup>
+            </>}
 
-                {checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).filter((v) => { return v.isFollowing === 1 }).map(vac => { return (<VacationCard key={vac.vacationID} vacation={vac} />) })}
-                {!checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(v => { return (<VacationCard key={v.vacationID} vacation={v} />) })}
+            {checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).filter((v) => { return v.isFollowing === 1 }).map(vac => { return (<VacationCard key={vac.vacationID} vacation={vac} />) })}
+            {!checked && vacations.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(v => { return (<VacationCard key={v.vacationID} vacation={v} />) })}
 
 
-            </div>
-            <div className="Pagination">
-                <Pagination count={numOfPages} page={page} onChange={handleChange} defaultPage={1} color="primary" size="large" showFirstButton showLastButton />
-            </div>
+            <Pagination count={numOfPages} page={page} onChange={handleChange} defaultPage={1} color="primary" size="large" showFirstButton showLastButton />
         </div>
     );
 }

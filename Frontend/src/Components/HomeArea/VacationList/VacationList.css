@@ -1,15 +1,9 @@
-.VacationListOutside {
-    height: 100%;
-    display: grid;
-    grid-template-rows: 94% 5%;
-}
-
-.VacationListInside {
+.VacationList {
     margin: 0 auto;
     width: 90%;
 }
 
-.VacationListInside > a > .AddVacationButton {
+.VacationList > a > .AddVacationButton {
     position: absolute;
     right: 30px;
     top: 100px;
@@ -19,18 +13,13 @@
     margin: auto;
 }
 
-.Pagination {
-    position: relative;
-    bottom: 0;
-}
-
-.Pagination > nav {
+nav {
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
 
-.Pagination > nav > ul {
+nav > ul {
     margin: 0 auto;
     display: flex;
     justify-content: center;

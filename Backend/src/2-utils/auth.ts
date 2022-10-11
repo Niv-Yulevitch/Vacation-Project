@@ -69,8 +69,27 @@ function getUserRoleFromToken(authHeader: string): RoleModel {
   return role;
 }
 
+function getUserIdFromToken(authHeader: string): RoleModel {
+  // Extract the token, format: "Bearer token":
+  //                                    ^
+  //                             01234567
+  const token = authHeader.substring(7);
+
+  // Get container which contains the user:
+  const container = jwt.decode(token) as { user: UserModel };
+
+  // Get the user:
+  const user = container.user;
+    
+    // Get user role:
+    const id = user.userID;
+    
+  return id;
+}
+
 export default {
   generateNewToken,
   verifyToken,
-  getUserRoleFromToken
+  getUserRoleFromToken,
+  getUserIdFromToken
 };

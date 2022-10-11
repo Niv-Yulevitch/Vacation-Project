@@ -9,6 +9,7 @@
 .EditVacationForm input, .EditVacationForm textarea {
     width: 100%;
     box-sizing: border-box;
+    resize: vertical;
 }
 
 .EditVacationForm button {

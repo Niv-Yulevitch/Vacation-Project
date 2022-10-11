@@ -6,8 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import notifyService from "../../../Services/NotifyService";
 import VacationModel from "../../../Models/VacationModel";
 import vacationsService from "../../../Services/VacationsService";
+import useVerifyAdmin from "../../../Utils/UseVerifyAdmin";
 
 function EditVacation(): JSX.Element {
+
+    useVerifyAdmin();
 
     const { register, handleSubmit, formState, setValue } = useForm<VacationModel>();
 
@@ -87,8 +90,8 @@ function EditVacation(): JSX.Element {
                         <label>Price:</label>
                         <input type="number" {...register("price", {
                             required: { value: true, message: "Missing price" },
-                            min: 0,
-                            max: 999999.99,
+                            min: {value: 0, message: "Price can't be negative!" },
+                            max: {value: 9999, message: "Price can't be over 9999!"},
                         })} />
                         <span>{formState.errors.price?.message}</span>
 

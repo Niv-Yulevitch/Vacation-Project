@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
-import { vacationsStore } from "../../../Redux/VacationsState";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
 import Loading from "../../SharedArea/Loading/Loading";
@@ -37,13 +36,7 @@ function VacationList(): JSX.Element {
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
 
-        // const unsubscribe = vacationsStore.subscribe(() => {
-        //     setVacations(vacationsStore.getState().vacations);
-        // });
-
         setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
-
-        // return () => { unsubscribe() };
     }, [vacations, user]);
 
     return (

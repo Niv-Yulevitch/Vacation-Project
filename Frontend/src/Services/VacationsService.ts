@@ -1,7 +1,6 @@
 import axios from "axios";
 import FollowerModel from "../Models/FollowerModel";
 import VacationModel from "../Models/VacationModel";
-import { authStore } from "../Redux/AuthState";
 import {
   VacationsAction,
   VacationsActionType,
@@ -127,6 +126,12 @@ class VacationsService {
   public async updateVacation(vacation: VacationModel): Promise<void> {
     await this.checkEmpty();
 
+    const fromDateBeforeSplit1 = new Date(vacation.fromDate).toISOString();
+    vacation.fromDateString = fromDateBeforeSplit1.split("T", 1).toString();
+    
+    const untilDateBeforeSplit1 = new Date(vacation.untilDate).toISOString();
+    vacation.untilDateString = untilDateBeforeSplit1.split("T", 1).toString();
+    
     // Convert VacationModel into FormData because we need to send text + image:
     const fromDateValue = new Date(vacation.fromDateString).toISOString().split("T")[0].toString();
     const untilDateValue = new Date(vacation.untilDateString).toISOString().split("T")[0].toString();
@@ -146,11 +151,8 @@ class VacationsService {
     );
     const updatedVacation = response.data;
 
-    const fromDateBeforeSplit = new Date(updatedVacation.fromDate).toISOString();
-    updatedVacation.fromDateString = fromDateBeforeSplit.split("T", 1).toString();
-    
-    const untilDateBeforeSplit = new Date(updatedVacation.untilDate).toISOString();
-    updatedVacation.untilDateString = untilDateBeforeSplit.split("T", 1).toString();
+    updatedVacation.fromDateString = new Date(updatedVacation.fromDate).toLocaleDateString('he-IL');
+    updatedVacation.untilDateString = new Date(updatedVacation.untilDate).toLocaleDateString('he-IL');
 
     if(!updatedVacation.imageName) {
         updatedVacation.imageName = vacation.imageName

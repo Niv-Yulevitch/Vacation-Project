@@ -1,5 +1,5 @@
 import { Card, CardActions, CardContent, Container, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./EditVacation.css";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,12 +7,21 @@ import notifyService from "../../../Services/NotifyService";
 import VacationModel from "../../../Models/VacationModel";
 import vacationsService from "../../../Services/VacationsService";
 import useVerifyAdmin from "../../../Utils/UseVerifyAdmin";
+import { DateRangePicker } from 'rsuite';
+import "rsuite/dist/rsuite.min.css";
 
 function EditVacation(): JSX.Element {
 
     useVerifyAdmin();
 
+    const [fromDate, setFromDate] = useState<Date>();
+    const [untilDate, setUntilDate] = useState<Date>();
+    const [dates, setDates] = useState<Date[]>([null, null]);
+    const [dateError, setDateError] = useState<string>("");
+
     const { register, handleSubmit, formState, setValue } = useForm<VacationModel>();
+
+    const { beforeToday } = DateRangePicker;
 
     const params = useParams();
 
@@ -24,11 +33,11 @@ function EditVacation(): JSX.Element {
         vacationsService
             .getOneVacation(id)
             .then((v) => {
+                setFromDate(new Date(v.fromDate));
+                setUntilDate(new Date(v.untilDate));
                 setValue("vacationID", v.vacationID);
                 setValue("destination", v.destination);
                 setValue("description", v.description);
-                setValue("fromDateString", v.fromDateString);
-                setValue("untilDateString", v.untilDateString);
                 setValue("price", v.price);
                 setValue("imageName", v.imageName);
             })
@@ -36,7 +45,13 @@ function EditVacation(): JSX.Element {
     }, []);
 
     async function send(vacation: VacationModel) {
+        if (dates.length < 1 || dates[0] === null || dates[1] === null) {
+            setDateError("Missing dates");
+            return;
+        }
         try {
+            vacation.fromDate = dates[0];
+            vacation.untilDate = dates[1];
             await vacationsService.updateVacation(vacation);
             notifyService.success("Updated!");
             navigate("/");
@@ -48,6 +63,7 @@ function EditVacation(): JSX.Element {
 
     return (
         <Container className="EditVacation" maxWidth="sm">
+            {fromDate && 
             <form onSubmit={handleSubmit(send)} className="EditVacationForm">
                 <Card sx={{ minWidth: 275 }}>
                     <CardContent>
@@ -73,19 +89,22 @@ function EditVacation(): JSX.Element {
                         })} />
                         <span>{formState.errors.description?.message}</span>
 
-                        <label>From:</label>
-                        <input type="date" {...register("fromDateString", {
-                            required: { value: true, message: "Missing from date" },
-                            valueAsDate: true,
-                        })} />
-                        <span>{formState.errors.fromDate?.message}</span>
-
-                        <label>Until:</label>
-                        <input type="date" {...register("untilDateString", {
-                            required: { value: true, message: "Missing until date" },
-                            valueAsDate: true,
-                        })} />
-                        <span>{formState.errors.untilDate?.message}</span>
+                        <label>Dates:</label>
+                        <DateRangePicker 
+                            format="dd-MM-yyyy"
+                            cleanable={true}
+                            placeholder="Select Date Range"
+                            block
+                            defaultValue={[fromDate, untilDate]}
+                            size="xs"
+                            showOneCalendar
+                            disabledDate={beforeToday()}
+                            onChange={(dates) => {
+                                setDates(dates);
+                                setDateError("");
+                            }}
+                        />
+                        <span>{dateError}</span>
 
                         <label>Price:</label>
                         <input type="number" {...register("price", {
@@ -104,6 +123,7 @@ function EditVacation(): JSX.Element {
                     </CardActions>
                 </Card>
             </form>
+            }
         </Container>
     );
 }

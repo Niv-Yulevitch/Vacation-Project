@@ -1,13 +1,7 @@
 .VacationCard {
-    display: flex;
-    flex-direction: column;
     text-align: left;
     padding: 10px;
     width: 250px;
-}
-
-.CardMui{
-    flex: 1;
 }
 
 .VacationCard .CardHeader {

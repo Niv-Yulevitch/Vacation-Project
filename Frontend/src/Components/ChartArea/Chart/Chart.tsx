@@ -12,7 +12,6 @@ import { useState, useEffect } from "react";
 import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
-import { authStore } from "../../../Redux/AuthState";
 import { Container } from "@mui/material";
 
 ChartJS.register(
@@ -29,8 +28,6 @@ function Chart(): JSX.Element {
     const [vacations, setVacations] = useState<VacationModel[]>([]);
 
     useEffect(() => {
-        const user = authStore.getState().user;
-
         vacationsService
             .getAllVacations()
             .then((vacations) => setVacations(vacations.filter((v)=>{return v.followersCount > 0})))

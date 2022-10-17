@@ -42,7 +42,7 @@ function VacationList(): JSX.Element {
         setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
 
         if(checked) {setNumOfPage(Math.ceil(followingVacations.length / itemsPerPage))}
-    }, [vacations, user, checked, followingVacations]);
+    }, [vacations, user, checked]);
 
     return (
         <div className="VacationList">

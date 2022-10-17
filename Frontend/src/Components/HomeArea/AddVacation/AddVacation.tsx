@@ -7,18 +7,30 @@ import notifyService from "../../../Services/NotifyService";
 import VacationModel from "../../../Models/VacationModel";
 import vacationsService from "../../../Services/VacationsService";
 import useVerifyAdmin from "../../../Utils/UseVerifyAdmin";
+import { DateRangePicker } from 'rsuite';
+import "rsuite/dist/rsuite.min.css";
 
 function AddVacation(): JSX.Element {
     useVerifyAdmin();
-    const [fromDateValue, setFromDateValue] = useState<any>();
-    const [untilDateValue, setUntilDateValue] = useState<any>();
+    const today = new Date();
+
+    const [dates, setDates] = useState<Date[]>([null, null]);
+    const [dateError, setDateError] = useState<string>("");
+
+    const { beforeToday } = DateRangePicker;
 
     const { register, handleSubmit, formState } = useForm<VacationModel>();
 
     const navigate = useNavigate();
 
     async function send(vacation: VacationModel) {
+        if (dates.length < 1 || dates[0] === null || dates[1] === null) {
+            setDateError("Missing dates");
+            return;
+        }
         try {
+            vacation.fromDate = dates[0];
+            vacation.untilDate = dates[1];
             await vacationsService.addVacation(vacation);
             notifyService.success("Added!");
             navigate("/");
@@ -27,7 +39,6 @@ function AddVacation(): JSX.Element {
         }
     }
 
-    const today = new Date().toISOString().split("T")[0].toString();
 
     return (
         <Container className="AddVacation" maxWidth="sm">
@@ -54,19 +65,23 @@ function AddVacation(): JSX.Element {
                         })} />
                         <span>{formState.errors.description?.message}</span>
 
-                        <label>From:</label>
-                        <input type="date" required min={today} value={fromDateValue} onChange={(newValue) => { setFromDateValue(newValue); }} {...register("fromDate", {
-                            required: { value: true, message: "Missing from date" },
-                            valueAsDate: true,
-                        })} />
-                        <span>{formState.errors.fromDate?.message}</span>
-
-                        <label>Until:</label>
-                        <input type="date" required min={today} onChange={(newValue) => setUntilDateValue(newValue)} {...register("untilDate", {
-                            required: { value: true, message: "Missing until date" },
-                            valueAsDate: true,
-                        })} />
-                        <span>{formState.errors.untilDate?.message}</span>
+                        <label>Dates:</label>
+                        <DateRangePicker 
+                            
+                            format="dd-MM-yyyy"
+                            // defaultValue={[dates[0], dates[1]]}
+                            cleanable={true}
+                            placeholder="Select Date Range"
+                            block
+                            size="xs"
+                            showOneCalendar
+                            disabledDate={beforeToday()}
+                            onChange={(dates) => {
+                                setDates(dates);
+                                setDateError("");
+                            }}
+                        />
+                        <span>{dateError}</span>
 
                         <label>Price:</label>
                         <input type="number" required {...register("price", {

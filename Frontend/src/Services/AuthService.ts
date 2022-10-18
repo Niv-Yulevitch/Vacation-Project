@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import CredentialsModel from "../Models/CredentialsModel";
 import UserModel from "../Models/UserModel";
 import { AuthAction, AuthActionType, authStore } from "../Redux/AuthState";
@@ -34,6 +35,13 @@ class AuthService {
     public async usernameIsTaken(username: string): Promise<boolean> {
         const response = await axios.get<boolean>(appConfig.authUrl + username);
         return response.data;
+    }
+
+    public expLoggedIn(): boolean {
+        if (authStore.getState().token === null) return false;
+        const container: { exp: number} = jwtDecode(authStore.getState().token);
+        const now = new Date();
+        return container.exp * 1000 > now.getTime();
     }
 }
 

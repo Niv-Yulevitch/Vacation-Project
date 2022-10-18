@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Container, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Container, Typography, styled } from "@mui/material";
 import { useState } from "react";
 import "./AddVacation.css";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,10 @@ import vacationsService from "../../../Services/VacationsService";
 import useVerifyAdmin from "../../../Utils/UseVerifyAdmin";
 import { DateRangePicker } from 'rsuite';
 import "rsuite/dist/rsuite.min.css";
+
+const StyledButton = styled(Button)(`
+  text-transform: none;
+`);
 
 function AddVacation(): JSX.Element {
     useVerifyAdmin();
@@ -98,7 +102,7 @@ function AddVacation(): JSX.Element {
                         <span>{formState.errors.image?.message}</span>
                     </CardContent>
                     <CardActions>
-                        <button type="submit">Add</button>
+                        <StyledButton type="submit">Add</StyledButton>
                     </CardActions>
                 </Card>
             </form>

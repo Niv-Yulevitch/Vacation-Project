@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Container, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Container, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import "./EditVacation.css";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,10 @@ import vacationsService from "../../../Services/VacationsService";
 import useVerifyAdmin from "../../../Utils/UseVerifyAdmin";
 import { DateRangePicker } from 'rsuite';
 import "rsuite/dist/rsuite.min.css";
+
+const StyledButton = styled(Button)(`
+  text-transform: none;
+`);
 
 function EditVacation(): JSX.Element {
 
@@ -119,7 +123,7 @@ function EditVacation(): JSX.Element {
                         <span>{formState.errors.image?.message}</span>
                     </CardContent>
                     <CardActions>
-                        <button type="submit">Update</button>
+                        <StyledButton type="submit">Update</StyledButton>
                     </CardActions>
                 </Card>
             </form>

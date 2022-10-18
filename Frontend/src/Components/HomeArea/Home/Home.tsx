@@ -4,12 +4,20 @@ import { authStore } from "../../../Redux/AuthState";
 import Login from "../../AuthArea/Login/Login";
 import "./Home.css";
 import VacationList from "../VacationList/VacationList";
+import authService from "../../../Services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 function Home(): JSX.Element {
     const [user, setUser] = useState<UserModel>();
 
+    const navigate = useNavigate()
+
     // AJAX Side Effect:
     useEffect(() => {
+        if(!authService.expLoggedIn()){
+            navigate("/login");
+        }
+
         setUser(authStore.getState().user);
         
         const unsubscribe = authStore.subscribe(() => {

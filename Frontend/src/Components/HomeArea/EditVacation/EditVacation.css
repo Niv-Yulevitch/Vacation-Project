@@ -14,7 +14,7 @@
 
 .EditVacationForm button {
     width: 100%;
-    background-color: #4CAF50;
+    background-color: #1976d2;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 .EditVacationForm button:hover {
-    background-color: #45a049;
+    background-color: #1565c0;
 }
 
 .EditVacationForm span {

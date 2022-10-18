@@ -1,7 +1,7 @@
 .VacationCard {
     text-align: left;
     padding: 10px;
-    width: 250px;
+    width: 300px;
 }
 
 .VacationCard .CardHeader {
@@ -12,7 +12,7 @@
 
 .VacationCard > div > img {
     height: 150px;
-    width: 250px;
+    width: 300px;
 }
 
 .VacationCard > div:last-child {

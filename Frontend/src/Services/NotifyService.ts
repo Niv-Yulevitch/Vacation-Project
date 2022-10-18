@@ -1,10 +1,23 @@
+import { blue } from "@mui/material/colors";
 import { Notyf } from "notyf";
 
 class NotifyService {
 
     private notify = new Notyf({
-        duration: 4000,
-        position: {x: "center", y: "top"},
+        position: {x: "right", y: "bottom"},
+        types: [
+            {
+                type: 'success',
+                duration: 4000,
+                background: 'blue',
+                dismissible: true,
+            },
+            {
+                type: 'error',
+                duration: 7000,
+                dismissible: true,
+            }
+        ]
     });
 
     public success(message: string): void {

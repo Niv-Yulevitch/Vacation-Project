@@ -1,13 +1,15 @@
-import { Button, styled } from "@mui/material";
+import { Button, Box, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
 import notifyService from "../../../Services/NotifyService";
 import vacationsService from "../../../Services/VacationsService";
+import "./FollowVacation.css"
 
 const StyledButton = styled(Button)(`
   text-transform: none;
 `);
+
 interface FollowVacationProps {
     vacation: VacationModel;
 }
@@ -50,12 +52,18 @@ function FollowVacation(props: FollowVacationProps): JSX.Element {
     return (
         <div className="FollowVacatoin">
             {isFollowing ?
-                <StyledButton variant="outlined" size="small" className="FollowersButton" disableRipple onClick={unFollow}>
-                    Unfollow {props.vacation.followersCount}
-                </StyledButton> :
-                <StyledButton variant="contained" size="small" className="FollowersButton" disableRipple onClick={follow}>
-                    Follow {props.vacation.followersCount}
-                </StyledButton>
+                <div>
+                    <Box className="FollowersCounterBox">{props.vacation.followersCount}</Box>
+                    <StyledButton variant="outlined" size="small" className="FollowersButton" disableRipple onClick={unFollow} sx={{'&:hover': {color: 'white'}}}>
+                        Unfollow
+                    </StyledButton>
+                </div> :
+                <div>
+                    <Box className="FollowersCounterBox">{props.vacation.followersCount}</Box>
+                    <StyledButton variant="contained" size="small" className="FollowersButton" disableRipple onClick={follow}>
+                        Follow
+                    </StyledButton>
+                </div>
             }
         </div>
     );

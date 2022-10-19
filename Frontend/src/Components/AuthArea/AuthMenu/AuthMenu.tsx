@@ -31,7 +31,7 @@ function AuthMenu(): JSX.Element {
           <span>Hello Guest | </span>
           <ButtonGroup size="small">
             <StyledButton variant="contained">
-              <NavLink to="/login">Sign in</NavLink>
+              <NavLink to="/login">Login</NavLink>
             </StyledButton>
             <StyledButton variant="contained">
               <NavLink to="/register">Register</NavLink>

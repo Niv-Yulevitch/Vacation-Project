@@ -6,6 +6,7 @@ import "./Home.css";
 import VacationList from "../VacationList/VacationList";
 import authService from "../../../Services/AuthService";
 import { useNavigate } from "react-router-dom";
+import vacationsService from "../../../Services/VacationsService";
 
 function Home(): JSX.Element {
     const [user, setUser] = useState<UserModel>();
@@ -15,7 +16,9 @@ function Home(): JSX.Element {
     // AJAX Side Effect:
     useEffect(() => {
         if(!authService.expLoggedIn()){
-            navigate("/login");
+            navigate("/login")
+            authService.logout();
+            vacationsService.flushAll();
         }
 
         setUser(authStore.getState().user);

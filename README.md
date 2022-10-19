@@ -41,4 +41,16 @@ cd ../Frontend
 npm start
 ```
 
+## Users Information For Login:
+- Admin = {
+    Username: Admin
+    Password: admin
+}
+
+- User = {
+    Username: BartS
+    Password: 123456
+}
+
+
 The project should open up on http://localhost:3000/ and load up!

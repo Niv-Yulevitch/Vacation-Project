@@ -55,19 +55,19 @@ npm start
 The project should open up on http://localhost:3000/ and load up!
 
 ## Screenshots:
-#### Login page:
+### Login page:
 <img width="1436" alt="Login" src="https://user-images.githubusercontent.com/98215470/196795023-e17b66fc-2d1d-4814-97b9-766c6d57ca27.png">
-#### Register page:
+### Register page:
 <img width="1436" alt="Register" src="https://user-images.githubusercontent.com/98215470/196794275-92b04882-bf12-46b8-a080-98c20c11fdaa.png">
-#### User home page:
+### User home page:
 <img width="1436" alt="User Home Page" src="https://user-images.githubusercontent.com/98215470/196794768-0929d6bb-4273-4310-8982-121da88bd5da.png">
-#### User filtered vacation on home page:
+### User filtered vacation on home page:
 <img width="1436" alt="User Filtered Vacations" src="https://user-images.githubusercontent.com/98215470/196794787-1a4da8af-8c6d-4937-b67a-8ed52d5a9f11.png">
-#### Admin home page:
+### Admin home page:
 <img width="1436" alt="Admin Home Page" src="https://user-images.githubusercontent.com/98215470/196794800-4bc04737-f230-48f0-868d-5c6397672147.png">
-#### Edit page:
+### Edit page:
 <img width="1436" alt="Edit Page" src="https://user-images.githubusercontent.com/98215470/196794812-b06c9302-a24c-45e2-b1d2-12302d01a10b.png">
-#### Add page:
+### Add page:
 <img width="1436" alt="Add Page" src="https://user-images.githubusercontent.com/98215470/196794821-fa28ce6d-4fce-4d75-a646-d68306e942cd.png">
-#### Reports page:
+### Reports page:
 <img width="1436" alt="Reports Page" src="https://user-images.githubusercontent.com/98215470/196794843-3af2a54f-f457-4832-ba8d-d3279c6ece06.png">

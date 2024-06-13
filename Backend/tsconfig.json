@@ -1,13 +1,6 @@
-{   
-    "compilerOptions": {    
-        "module": "commonjs",    
-        "esModuleInterop": true,    
-        "target": "es5",    
-        "strict": true,    
-        "moduleResolution": "node",    
-        "sourceMap": true,    
-        "outDir": "dist"  
-    },
-    "include": ["app.ts"],   
-    "exclude": ["node_modules"] 
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "esModuleInterop": true
+    }
 }

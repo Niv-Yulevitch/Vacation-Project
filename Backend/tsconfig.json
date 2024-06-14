@@ -1,6 +1,23 @@
 {
     "compilerOptions": {
-        "target": "ES5",
-        "esModuleInterop": true
-    }
-}
+      "target": "ES5",                         // Specify ECMAScript target version
+      "module": "commonjs",                    // Specify module code generation
+      "strict": true,                          // Enable all strict type-checking options
+      "esModuleInterop": true,                 // Enable interop between CommonJS and ES Modules
+      "skipLibCheck": true,                    // Skip type checking of declaration files
+      "forceConsistentCasingInFileNames": true,// Ensure file name casing is consistent
+      "outDir": "./dist",                      // Redirect output structure to the dist directory
+      "rootDir": "./src",                      // Specify the root directory of input files
+      "resolveJsonModule": true,               // Include modules imported with .json extension
+      "moduleResolution": "node",              // Use Node.js module resolution
+      "types": ["node"],                       // Include the types for Node.js
+      "sourceMap": true                        // Generate source maps for debugging
+    },
+    "include": [
+      "src/**/*"                               // Include all files in the src directory
+    ],
+    "exclude": [
+      "node_modules",                          // Exclude the node_modules directory
+      "**/*.spec.ts"                           // Exclude test files
+    ]
+  }

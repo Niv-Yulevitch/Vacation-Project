@@ -3,7 +3,6 @@ Vacation Project - Full Stack Web App (MySQL, Node.js and React)
 
 # Dependencies:
 react: ^18.2.0
-
 MySQL with phpMyAdmin
 
 ## Import the Database:

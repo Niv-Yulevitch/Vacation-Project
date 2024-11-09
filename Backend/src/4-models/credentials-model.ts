@@ -5,8 +5,8 @@ class CredentialsModel {
     public password: string;
 
     constructor(credentials: CredentialsModel) {
-        this.username = credentials.username || '';
-        this.password = credentials.password || '';
+        this.username = credentials.username!;
+        this.password = credentials.password!;
     }
 
     private static validationSchema = Joi.object({
@@ -16,7 +16,7 @@ class CredentialsModel {
 
     public validate(): string {
         const result = CredentialsModel.validationSchema.validate(this);
-        return result.error?.message;
+        return result.error?.message || '';
     };
 }
 

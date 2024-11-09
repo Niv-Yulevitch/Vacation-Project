@@ -1,5 +1,5 @@
 class Config {
-    public port = 3001;
+    public port = process.env.PORT || 3001;
     public mysqlHost = "localhost";
     public mysqlUser = "root";
     public mysqlPassword = "";

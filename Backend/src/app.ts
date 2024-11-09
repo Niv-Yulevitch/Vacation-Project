@@ -12,6 +12,10 @@ import expressRateLimit from "express-rate-limit";
 
 const server = express();
 
+server.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
 server.use("/api/", expressRateLimit({
     windowMs: 500,
     max: 50,

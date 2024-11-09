@@ -13,8 +13,8 @@ class UserModel {
         this.userID = user.userID;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
-        this.username = user.username;
-        this.password = user.password;
+        this.username = user.username ?? '';  // Use empty string if undefined
+        this.password = user.password ?? '';  // Use empty string if undefined
         this.roleID = user.roleID;
     }
 
@@ -29,7 +29,7 @@ class UserModel {
 
     public validate(): string {
         const result = UserModel.validationSchema.validate(this);
-        return result.error?.message;
+        return result.error?.message ?? '';  // Return empty string if no error
     };
 
 };

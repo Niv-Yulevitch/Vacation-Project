@@ -1,6 +1,19 @@
 {
     "compilerOptions": {
-        "target": "ES5",
-        "esModuleInterop": true
-    }
+        "target": "ES2020",            // Or a higher version, depending on your needs
+    "module": "commonjs",          // For Node.js apps
+    "esModuleInterop": true,
+    "skipLibCheck": true,          // Skip library checks to avoid conflicts
+    "strict": true,                // You can enable strict mode if needed
+    "outDir": "./dist",            // Output directory for compiled JS
+    "rootDir": "./src",            // Source directory for TS files
+    "resolveJsonModule": true,
+    "noImplicitAny": false         // Optional: Disable implicit any check if needed
+  },
+  "include": [
+    "src/**/*.ts"                  // Include your TypeScript files
+  ],
+  "exclude": [
+    "node_modules"                 // Exclude node_modules
+  ]
 }

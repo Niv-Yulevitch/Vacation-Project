@@ -16,7 +16,7 @@ const StyledButton = styled(Button)(`
 
 function AddVacation(): JSX.Element {
     useVerifyAdmin();
-    const today = new Date();
+    // const today = new Date(); ------ NOT IN USE!
 
     const [dates, setDates] = useState<Date[]>([null, null]);
     const [dateError, setDateError] = useState<string>("");

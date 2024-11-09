@@ -30,7 +30,7 @@ function Home(): JSX.Element {
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="Home">

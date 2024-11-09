@@ -17,5 +17,5 @@ export default function useVerifyAdmin() {
             navigate("/");
             notifyService.error("Access denied!")
         };
-    }, []);
+    }, [navigate]);
 };

@@ -8,7 +8,11 @@
     "outDir": "./dist",            // Output directory for compiled JS
     "rootDir": "./src",            // Source directory for TS files
     "resolveJsonModule": true,
-    "noImplicitAny": false         // Optional: Disable implicit any check if needed
+    "noImplicitAny": true,         // Optional: Disable implicit any check if needed
+    "strictNullChecks": true, // Ensures null and undefined are handled explicitly
+    "strictFunctionTypes": true, // Checks for correct function signatures
+    "noImplicitThis": true, // Prevents 'this' from being implicitly any
+    "alwaysStrict": true, // Ensures that the script files are in strict mode
   },
   "include": [
     "src/**/*.ts"                  // Include your TypeScript files

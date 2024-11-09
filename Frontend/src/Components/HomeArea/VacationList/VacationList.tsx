@@ -31,18 +31,37 @@ function VacationList(): JSX.Element {
         setChecked(event.target.checked);
     }
 
+    // Fetch vacations data
     useEffect(() => {
         vacationsService
             .getAllVacations()
             .then((vacations) => setVacations(vacations))
             .catch((err) => notifyService.error(err));
+    }, [user]);
 
-        setFollowingVacations(vacations.filter((v) => { return v.isFollowing === 1 }))
+    // Update following vacations when vacations change
+    useEffect(() => {
+        setFollowingVacations(vacations.filter((v) => v.isFollowing === 1));
+    }, [vacations]);
 
-        setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
+    // Calculate number of pages based on checked status and list length
+    useEffect(() => {
+        const listToPaginate = checked ? followingVacations : vacations;
+        setNumOfPage(Math.ceil(listToPaginate.length / itemsPerPage));
+    }, [checked, vacations, followingVacations, vacations.length, itemsPerPage]);
 
-        if(checked) {setNumOfPage(Math.ceil(followingVacations.length / itemsPerPage))}
-    }, [vacations, user, checked]);
+    // useEffect(() => {
+    //     vacationsService
+    //         .getAllVacations()
+    //         .then((vacations) => setVacations(vacations))
+    //         .catch((err) => notifyService.error(err));
+
+    //     setFollowingVacations(vacations.filter((v) => { return v.isFollowing === 1 }))
+
+    //     setNumOfPage(Math.ceil(vacations.length / itemsPerPage))
+
+    //     if(checked) {setNumOfPage(Math.ceil(followingVacations.length / itemsPerPage))}
+    // }, [vacations, user, checked]);
 
     return (
         <div className="VacationList">

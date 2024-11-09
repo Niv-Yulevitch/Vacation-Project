@@ -18,7 +18,7 @@ function Logout(): JSX.Element {
         catch (err: any) {
             notifyService.error(err);            
         }
-    }, [])
+    }, [navigate])
 
     return null;
 }

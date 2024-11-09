@@ -46,7 +46,7 @@ function EditVacation(): JSX.Element {
                 setValue("imageName", v.imageName);
             })
             .catch((err) => notifyService.error(err));
-    }, []);
+    }, [params.vId, setValue]);
 
     async function send(vacation: VacationModel) {
         if (dates.length < 1 || dates[0] === null || dates[1] === null) {

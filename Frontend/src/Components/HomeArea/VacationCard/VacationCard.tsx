@@ -88,7 +88,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                 <CardHeader className="CardHeader" title={vacation.destination} subheader={vacation.fromDateString + " ➡️ " + vacation.untilDateString} />
                 <CardMedia
                     component="img"
-                    image={`http://localhost:3001/api/vacations/images/${vacation.imageName}`}
+                    image={`https://vacation-project.onrender.com/api/vacations/images/${vacation.imageName}`}
                     alt="Paella dish"
                 />
                 <CardActions disableSpacing>

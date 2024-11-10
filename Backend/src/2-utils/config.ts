@@ -1,9 +1,9 @@
 class Config {
     public port = process.env.PORT || 3001;
     public mysqlHost = "db4free.net";
-    public mysqlUser = "vacationproj";
+    public mysqlUser = "vacationroot";
     public mysqlPassword = "adminadmin";
-    public mysqlDatabase = "vacationproj" // Must fill in...
+    public mysqlDatabase = "vacations" // Must fill in...
 }
 
 const config = new Config();

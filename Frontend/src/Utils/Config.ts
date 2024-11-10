@@ -1,8 +1,8 @@
 class Config {
-    public authUrl = "http://localhost:3001/api/auth/";
-    public vacationsUrl = "http://localhost:3001/api/vacations/";
-    public followUrl = "http://localhost:3001/api/follow";
-    public unFollowUrl = "http://localhost:3001/api/unFollow";
+    public authUrl = "https://vacation-project.onrender.com/api/auth/";
+    public vacationsUrl = "https://vacation-project.onrender.com/api/vacations/";
+    public followUrl = "https://vacation-project.onrender.com/api/follow";
+    public unFollowUrl = "https://vacation-project.onrender.com/api/unFollow";
 };
 
 const appConfig = new Config();

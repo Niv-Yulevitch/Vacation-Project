@@ -1,8 +1,8 @@
 class Config {
     public port = process.env.PORT || 3001;
-    public mysqlHost = "localhost";
-    public mysqlUser = "root";
-    public mysqlPassword = "";
+    public mysqlHost = "db4free.net";
+    public mysqlUser = "vacationproj";
+    public mysqlPassword = "adminadmin";
     public mysqlDatabase = "Vacations" // Must fill in...
 }
 
